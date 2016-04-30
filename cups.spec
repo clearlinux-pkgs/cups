@@ -4,12 +4,12 @@
 #
 Name     : cups
 Version  : 2.1.0
-Release  : 3
+Release  : 4
 URL      : http://cups.org/software/2.1.0/cups-2.1.0-source.tar.bz2
 Source0  : http://cups.org/software/2.1.0/cups-2.1.0-source.tar.bz2
 Summary  : CUPS
 Group    : Development/Tools
-License  : GPL-2.0
+License  : GPL-2.0 LGPL-2.0 Zlib
 Requires: cups-bin
 Requires: cups-lib
 Requires: cups-data
@@ -18,6 +18,7 @@ BuildRequires : Linux-PAM-dev
 BuildRequires : dbus-dev
 BuildRequires : krb5-dev
 BuildRequires : libgcrypt-dev
+BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
 
 %description
