@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.1.0
-Release  : 4
+Release  : 5
 URL      : http://cups.org/software/2.1.0/cups-2.1.0-source.tar.bz2
 Source0  : http://cups.org/software/2.1.0/cups-2.1.0-source.tar.bz2
 Summary  : CUPS
