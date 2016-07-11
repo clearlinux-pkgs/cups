@@ -63,6 +63,7 @@ libcups.so.2:_cupsStrScand
 libcups.so.2:_cupsStrStatistics
 libcups.so.2:_cupsThreadCreate
 libcups.so.2:_cupsUserDefault
+libcups.so.2:_cups_safe_vsnprintf
 libcups.so.2:_cups_strcasecmp
 libcups.so.2:_cups_strcpy
 libcups.so.2:_cups_strlcat
@@ -656,7 +657,6 @@ libcupsppdc.so.1:_ZN10ppdcOptionD1Ev
 libcupsppdc.so.1:_ZN10ppdcOptionD2Ev
 libcupsppdc.so.1:_ZN10ppdcShared6retainEv
 libcupsppdc.so.1:_ZN10ppdcShared7releaseEv
-libcupsppdc.so.1:_ZN10ppdcSharedC1Ev
 libcupsppdc.so.1:_ZN10ppdcSharedC2Ev
 libcupsppdc.so.1:_ZN10ppdcSharedD0Ev
 libcupsppdc.so.1:_ZN10ppdcSharedD1Ev
