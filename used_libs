@@ -6,4 +6,5 @@ libm.so.6
 libpam.so.0
 libpthread.so.0
 libstdc++.so.6
+libsystemd.so.0
 libz.so.1

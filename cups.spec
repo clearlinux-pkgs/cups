@@ -4,13 +4,14 @@
 #
 Name     : cups
 Version  : elease
-Release  : 6
+Release  : 7
 URL      : https://github.com/apple/cups/archive/release-2.1.4.tar.gz
 Source0  : https://github.com/apple/cups/archive/release-2.1.4.tar.gz
 Summary  : CUPS
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.0 Zlib
 Requires: cups-bin
+Requires: cups-config
 Requires: cups-lib
 Requires: cups-data
 Requires: cups-doc
@@ -21,6 +22,7 @@ BuildRequires : libgcrypt-dev
 BuildRequires : llvm-dev
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
+BuildRequires : systemd-dev
 
 %description
 CUPS is the standards-based, open source printing system developed by
@@ -30,9 +32,18 @@ Apple Inc. for OS X and other UNIXÂ®-like operating systems.
 Summary: bin components for the cups package.
 Group: Binaries
 Requires: cups-data
+Requires: cups-config
 
 %description bin
 bin components for the cups package.
+
+
+%package config
+Summary: config components for the cups package.
+Group: Default
+
+%description config
+config components for the cups package.
 
 
 %package data
@@ -67,6 +78,7 @@ doc components for the cups package.
 Summary: lib components for the cups package.
 Group: Libraries
 Requires: cups-data
+Requires: cups-config
 
 %description lib
 lib components for the cups package.
@@ -153,6 +165,14 @@ rm -rf %{buildroot}
 /usr/bin/ppdmerge
 /usr/bin/ppdpo
 /usr/bin/reject
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/org.cups.cups-lpd.socket
+/usr/lib/systemd/system/org.cups.cups-lpd@.service
+/usr/lib/systemd/system/org.cups.cupsd.path
+/usr/lib/systemd/system/org.cups.cupsd.service
+/usr/lib/systemd/system/org.cups.cupsd.socket
 
 %files data
 %defattr(-,root,root,-)
