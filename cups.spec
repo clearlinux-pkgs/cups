@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : elease
-Release  : 7
+Release  : 8
 URL      : https://github.com/apple/cups/archive/release-2.1.4.tar.gz
 Source0  : https://github.com/apple/cups/archive/release-2.1.4.tar.gz
 Summary  : CUPS
