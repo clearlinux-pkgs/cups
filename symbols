@@ -109,8 +109,6 @@ libcups.so.2:_ppdNormalizeMakeAndModel
 libcups.so.2:_ppdOpen
 libcups.so.2:_ppdOpenFile
 libcups.so.2:_ppdParseOptions
-libcups.so.2:_pwgGenerateSize
-libcups.so.2:_pwgInitSize
 libcups.so.2:_pwgInputSlotForSource
 libcups.so.2:_pwgMediaNearSize
 libcups.so.2:_pwgMediaTable
