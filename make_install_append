@@ -1,0 +1,1 @@
+chmod a+x %{buildroot}/usr/bin/cupsd

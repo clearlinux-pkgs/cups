@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.2
-Release  : 10
+Release  : 11
 URL      : https://github.com/apple/cups/archive/v2.2.2.tar.gz
 Source0  : https://github.com/apple/cups/archive/v2.2.2.tar.gz
 Summary  : No detailed summary available
@@ -90,7 +90,7 @@ lib components for the cups package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1484693001
+export SOURCE_DATE_EPOCH=1487964353
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -101,9 +101,12 @@ unset LDFLAGS
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1484693001
+export SOURCE_DATE_EPOCH=1487964353
 rm -rf %{buildroot}
 %make_install
+## make_install_append content
+chmod a+x %{buildroot}/usr/bin/cupsd
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
