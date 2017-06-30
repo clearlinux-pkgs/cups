@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.4
-Release  : 15
+Release  : 16
 URL      : https://github.com/apple/cups/archive/v2.2.4.tar.gz
 Source0  : https://github.com/apple/cups/archive/v2.2.4.tar.gz
 Summary  : No detailed summary available
