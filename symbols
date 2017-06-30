@@ -115,6 +115,7 @@ libcups.so.2:_pwgMediaTable
 libcups.so.2:_pwgMediaTypeForType
 libcups.so.2:_pwgPageSizeForMedia
 libcups.so.2:cupsAddDest
+libcups.so.2:cupsAddIntegerOption
 libcups.so.2:cupsAddOption
 libcups.so.2:cupsAdminCreateWindowsPPD
 libcups.so.2:cupsAdminExportSamba
@@ -222,6 +223,7 @@ libcups.so.2:cupsGetDests2
 libcups.so.2:cupsGetDevices
 libcups.so.2:cupsGetFd
 libcups.so.2:cupsGetFile
+libcups.so.2:cupsGetIntegerOption
 libcups.so.2:cupsGetJobs
 libcups.so.2:cupsGetJobs2
 libcups.so.2:cupsGetNamedDest

@@ -1,0 +1,39 @@
+Configure miss: clang option to accept ISO C89
+Configure miss: bstring.h usability
+Configure miss: bstring.h presence
+Configure miss: bstring.h
+Configure miss: sys/ucred.h usability
+Configure miss: sys/ucred.h presence
+Configure miss: sys/ucred.h
+Configure miss: library containing libiconv_open
+Configure miss: mxml.h usability
+Configure miss: mxml.h presence
+Configure miss: mxml.h
+Configure miss: arc4random
+Configure miss: st_gen member in stat structure
+Configure miss: removefile
+Configure miss: libusb-1.0
+Configure miss: library containing acl_init
+Configure miss: whether compiler supports -Wno-unused-result
+Configure miss: whether compiler supports -Wsign-conversion
+Configure miss: whether compiler supports -Wno-tautological-compare
+Configure miss: x86_64-generic-linux-gnu-krb5-config
+Configure miss: __ApplePrivate_gss_acquire_cred_ex_f
+Configure miss: pthread_create using -lpthreads
+Configure miss: x86_64-generic-linux-gnu-libgnutls-config
+Configure miss: libgnutls-config
+Configure miss: x86_64-generic-linux-gnu-libgcrypt-config
+Configure miss: Avahi
+Configure miss: dns_sd.h usability
+Configure miss: dns_sd.h presence
+Configure miss: dns_sd.h
+Configure miss: launch_activate_socket
+Configure miss: launch.h usability
+Configure miss: launch.h presence
+Configure miss: launch.h
+Configure miss: default print user
+Configure miss: default print group
+Configure miss: default system groups
+Configure miss: java
+Configure miss: php-cgi
+Configure miss: php
