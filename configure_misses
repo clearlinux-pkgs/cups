@@ -17,12 +17,12 @@ Configure miss: library containing acl_init
 Configure miss: whether compiler supports -Wno-unused-result
 Configure miss: whether compiler supports -Wsign-conversion
 Configure miss: whether compiler supports -Wno-tautological-compare
+Configure miss: whether compiler supports -Wno-format-truncation
 Configure miss: x86_64-generic-linux-gnu-krb5-config
 Configure miss: __ApplePrivate_gss_acquire_cred_ex_f
 Configure miss: pthread_create using -lpthreads
 Configure miss: x86_64-generic-linux-gnu-libgnutls-config
 Configure miss: libgnutls-config
-Configure miss: x86_64-generic-linux-gnu-libgcrypt-config
 Configure miss: Avahi
 Configure miss: dns_sd.h usability
 Configure miss: dns_sd.h presence

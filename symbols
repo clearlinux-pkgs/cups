@@ -67,6 +67,7 @@ libcups.so.2:_cupsStrScand
 libcups.so.2:_cupsStrStatistics
 libcups.so.2:_cupsThreadCancel
 libcups.so.2:_cupsThreadCreate
+libcups.so.2:_cupsThreadDetach
 libcups.so.2:_cupsThreadWait
 libcups.so.2:_cupsUserDefault
 libcups.so.2:_cups_safe_vsnprintf
