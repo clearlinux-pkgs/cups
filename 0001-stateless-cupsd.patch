@@ -1,0 +1,49 @@
+From 3f1dc5e97cc199906fcdc277901672ad036f23d6 Mon Sep 17 00:00:00 2001
+From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
+Date: Thu, 19 Oct 2017 13:34:46 -0500
+Subject: [PATCH] stateless cupsd
+
+Signed-off-by: Simental Magana, Marcos <marcos.simental.magana@intel.com>
+---
+ config.h.in      |  1 +
+ scheduler/main.c | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/config.h.in b/config.h.in
+index f3b5e4c..7ab7203 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -126,6 +126,7 @@
+ #define CUPS_SBINDIR	"/usr/sbin"
+ #define CUPS_SERVERBIN	"/usr/lib/cups"
+ #define CUPS_SERVERROOT	"/etc/cups"
++#define CUPS_DEFAULT_SERVERROOT	"/usr/share/defaults/etc/cups"
+ #define CUPS_STATEDIR	"/var/run/cups"
+ 
+ 
+diff --git a/scheduler/main.c b/scheduler/main.c
+index 8925c83..017abd9 100644
+--- a/scheduler/main.c
++++ b/scheduler/main.c
+@@ -326,8 +326,18 @@ main(int  argc,				/* I - Number of command-line args */
+     }
+ 
+   if (!ConfigurationFile)
++  {
+     cupsdSetString(&ConfigurationFile, CUPS_SERVERROOT "/cupsd.conf");
+ 
++    /* check if admin provided cupsd.conf exists
++     * fallback to default (stateless) cupsd.conf otherwise */
++    struct stat s;
++    if (stat(ConfigurationFile, &s) == -1)
++    {
++      cupsdSetString(&ConfigurationFile, CUPS_DEFAULT_SERVERROOT "/cupsd.conf");
++    }
++  }
++
+   if (!CupsFilesFile)
+   {
+     char	*filename,		/* Copy of cupsd.conf filename */
+-- 
+2.14.2
+
