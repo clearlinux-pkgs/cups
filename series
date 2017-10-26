@@ -1,1 +1,2 @@
 0001-stateless-cupsd.patch
+0002-log-to-syslog-by-default.patch
