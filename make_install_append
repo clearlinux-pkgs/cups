@@ -1,1 +1,3 @@
 chmod a+x %{buildroot}/usr/bin/cupsd
+install -d -m 755 %{buildroot}/usr/share/defaults/etc
+cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/

@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.5
-Release  : 17
+Release  : 20
 URL      : https://github.com/apple/cups/archive/v2.2.5.tar.gz
 Source0  : https://github.com/apple/cups/archive/v2.2.5.tar.gz
 Summary  : No detailed summary available
@@ -23,6 +23,8 @@ BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : python-dev
 BuildRequires : systemd-dev
+Patch1: 0001-stateless-cupsd.patch
+Patch2: 0002-log-to-syslog-by-default.patch
 
 %description
 alpha3.8 release.
@@ -86,26 +88,30 @@ lib components for the cups package.
 
 %prep
 %setup -q -n cups-2.2.5
+%patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1508331427
+export SOURCE_DATE_EPOCH=1509064836
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
 unset LDFLAGS
-%configure --disable-static
+%configure --disable-static --with-system-groups="root wheel lp"
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1508331427
+export SOURCE_DATE_EPOCH=1509064836
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
 chmod a+x %{buildroot}/usr/bin/cupsd
+install -d -m 755 %{buildroot}/usr/share/defaults/etc
+cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
 ## make_install_append end
 
 %files
@@ -722,6 +728,12 @@ chmod a+x %{buildroot}/usr/bin/cupsd
 /usr/share/cups/templates/test-page.tmpl
 /usr/share/cups/templates/trailer.tmpl
 /usr/share/cups/templates/users.tmpl
+/usr/share/defaults/etc/cups/cups-files.conf
+/usr/share/defaults/etc/cups/cups-files.conf.default
+/usr/share/defaults/etc/cups/cupsd.conf
+/usr/share/defaults/etc/cups/cupsd.conf.default
+/usr/share/defaults/etc/cups/snmp.conf
+/usr/share/defaults/etc/cups/snmp.conf.default
 /usr/share/locale/ca/cups_ca.po
 /usr/share/locale/cs/cups_cs.po
 /usr/share/locale/de/cups_de.po
