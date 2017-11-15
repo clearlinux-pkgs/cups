@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.6
-Release  : 21
+Release  : 22
 URL      : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Summary  : CUPS
