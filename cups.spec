@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.6
-Release  : 22
+Release  : 23
 URL      : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Summary  : CUPS
@@ -95,16 +95,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1510237329
+export SOURCE_DATE_EPOCH=1513373969
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
 unset LDFLAGS
-%configure --disable-static --with-system-groups="root wheel lp"
-make V=1  %{?_smp_mflags}
+%configure --disable-static --with-system-groups="root wheel lp" --enable-gssapi
+make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1510237329
+export SOURCE_DATE_EPOCH=1513373969
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
