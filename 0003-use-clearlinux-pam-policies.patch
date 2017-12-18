@@ -1,0 +1,21 @@
+From 4a3371acd405c3d09ad9f8cdb3c8b9ffa6843c90 Mon Sep 17 00:00:00 2001
+From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
+Date: Mon, 18 Dec 2017 16:06:27 -0600
+Subject: [PATCH] use clearlinux pam policies
+
+---
+ data/cups.pam | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/data/cups.pam b/data/cups.pam
+index f38e701..ad41220 100644
+--- a/data/cups.pam
++++ b/data/cups.pam
+@@ -1,2 +1,2 @@
+-auth	required	/lib/security/pam_pwdb.so nullok shadow
+-account	required	/lib/security/pam_pwdb.so
++auth	include	common-auth
++account	include	common-account
+-- 
+2.15.1
+
