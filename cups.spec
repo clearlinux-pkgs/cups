@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.6
-Release  : 23
+Release  : 24
 URL      : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Summary  : CUPS
@@ -25,6 +25,7 @@ BuildRequires : python-dev
 BuildRequires : systemd-dev
 Patch1: 0001-stateless-cupsd.patch
 Patch2: 0002-log-to-syslog-by-default.patch
+Patch3: 0003-use-clearlinux-pam-policies.patch
 
 %description
 CUPS is the standards-based, open source printing system developed by
@@ -89,13 +90,14 @@ lib components for the cups package.
 %setup -q -n cups-2.2.6
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513373969
+export SOURCE_DATE_EPOCH=1513635902
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -104,13 +106,15 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1513373969
+export SOURCE_DATE_EPOCH=1513635902
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
 chmod a+x %{buildroot}/usr/bin/cupsd
 install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
+install -d -m 0755 %{buildroot}/usr/share/pam.d
+install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
 ## make_install_append end
 
 %files
@@ -743,6 +747,7 @@ cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
 /usr/share/locale/pt_BR/cups_pt_BR.po
 /usr/share/locale/ru/cups_ru.po
 /usr/share/locale/zh_CN/cups_zh_CN.po
+/usr/share/pam.d/cups
 
 %files dev
 %defattr(-,root,root,-)
