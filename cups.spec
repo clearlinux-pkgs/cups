@@ -4,7 +4,7 @@
 #
 Name     : cups
 Version  : 2.2.6
-Release  : 25
+Release  : 26
 URL      : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.6/cups-2.2.6-source.tar.gz
 Summary  : CUPS
@@ -21,11 +21,12 @@ BuildRequires : krb5-dev
 BuildRequires : llvm-dev
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python-dev
+BuildRequires : python3-dev
 BuildRequires : systemd-dev
 Patch1: 0001-stateless-cupsd.patch
 Patch2: 0002-log-to-syslog-by-default.patch
 Patch3: 0003-use-clearlinux-pam-policies.patch
+Patch4: 0004-short-systemd-unit-names.patch
 
 %description
 CUPS is the standards-based, open source printing system developed by
@@ -91,13 +92,14 @@ lib components for the cups package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513635902
+export SOURCE_DATE_EPOCH=1520444390
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -106,7 +108,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1513635902
+export SOURCE_DATE_EPOCH=1520444390
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
@@ -115,6 +117,11 @@ install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
 install -d -m 0755 %{buildroot}/usr/share/pam.d
 install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd.socket
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd@.service
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.path
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.service
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 ## make_install_append end
 
 %files
@@ -183,11 +190,11 @@ install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
 
 %files config
 %defattr(-,root,root,-)
-/usr/lib/systemd/system/org.cups.cups-lpd.socket
-/usr/lib/systemd/system/org.cups.cups-lpd@.service
-/usr/lib/systemd/system/org.cups.cupsd.path
-/usr/lib/systemd/system/org.cups.cupsd.service
-/usr/lib/systemd/system/org.cups.cupsd.socket
+/usr/lib/systemd/system/cups-lpd.socket
+/usr/lib/systemd/system/cups-lpd@.service
+/usr/lib/systemd/system/cupsd.path
+/usr/lib/systemd/system/cupsd.service
+/usr/lib/systemd/system/cupsd.socket
 
 %files data
 %defattr(-,root,root,-)

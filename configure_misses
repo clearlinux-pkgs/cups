@@ -4,7 +4,6 @@ Configure miss: bstring.h presence
 Configure miss: bstring.h
 Configure miss: sys/ucred.h usability
 Configure miss: sys/ucred.h presence
-Configure miss: sys/ucred.h
 Configure miss: library containing libiconv_open
 Configure miss: mxml.h usability
 Configure miss: mxml.h presence
@@ -36,3 +35,4 @@ Configure miss: default print group
 Configure miss: java
 Configure miss: php-cgi
 Configure miss: php
+Configure miss: python
