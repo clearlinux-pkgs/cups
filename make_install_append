@@ -3,3 +3,8 @@ install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
 install -d -m 0755 %{buildroot}/usr/share/pam.d
 install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd.socket
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd@.service
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.path
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.service
+mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
