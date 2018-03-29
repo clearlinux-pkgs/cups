@@ -238,6 +238,7 @@ libcups.so.2:cupsGetPrinters
 libcups.so.2:cupsGetResponse
 libcups.so.2:cupsGetServerPPD
 libcups.so.2:cupsHashData
+libcups.so.2:cupsHashString
 libcups.so.2:cupsLangDefault
 libcups.so.2:cupsLangEncoding
 libcups.so.2:cupsLangFlush
