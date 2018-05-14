@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.2.7
-Release  : 28
+Release  : 29
 URL      : https://github.com/apple/cups/releases/download/v2.2.7/cups-2.2.7-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.7/cups-2.2.7-source.tar.gz
 Source99 : https://github.com/apple/cups/releases/download/v2.2.7/cups-2.2.7-source.tar.gz.sig
@@ -24,7 +24,6 @@ BuildRequires : krb5-dev
 BuildRequires : llvm-dev
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python3-dev
 BuildRequires : systemd-dev
 Patch1: 0001-stateless-cupsd.patch
 Patch2: 0002-log-to-syslog-by-default.patch
@@ -102,7 +101,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1522354293
+export SOURCE_DATE_EPOCH=1526267893
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -111,7 +110,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1522354293
+export SOURCE_DATE_EPOCH=1526267893
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
