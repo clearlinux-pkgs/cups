@@ -1,13 +1,14 @@
-From 3f1dc5e97cc199906fcdc277901672ad036f23d6 Mon Sep 17 00:00:00 2001
+From 5621d31b12f79c35f5f3e0bb7281bb0e115f0219 Mon Sep 17 00:00:00 2001
 From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
 Date: Thu, 19 Oct 2017 13:34:46 -0500
-Subject: [PATCH] stateless cupsd
+Subject: [PATCH 1/4] stateless cupsd
 
 Signed-off-by: Simental Magana, Marcos <marcos.simental.magana@intel.com>
 ---
  config.h.in      |  1 +
+ scheduler/conf.c | 11 ++++++-----
  scheduler/main.c | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/config.h.in b/config.h.in
 index f3b5e4c..7ab7203 100644
@@ -21,8 +22,30 @@ index f3b5e4c..7ab7203 100644
  #define CUPS_STATEDIR	"/var/run/cups"
  
  
+diff --git a/scheduler/conf.c b/scheduler/conf.c
+index 8c2694f..de0b5da 100644
+--- a/scheduler/conf.c
++++ b/scheduler/conf.c
+@@ -601,11 +601,12 @@ cupsdReadConfiguration(void)
+   else
+     PrintcapFormat = PRINTCAP_BSD;
+ 
+-  strlcpy(temp, ConfigurationFile, sizeof(temp));
+-  if ((slash = strrchr(temp, '/')) != NULL)
+-    *slash = '\0';
+-
+-  cupsdSetString(&ServerRoot, temp);
++  // in the case stateless default cups.conf and cups-files.conf
++  // files are used, force the ServerRoot location to be
++  // CUPS_SERVERROOT (/etc/cups) instead of using stateless base dir
++  // (CUPS_DEFAULT_SERVERROT)  so all new setup (printers, etc) is
++  // written in /etc/cups instead of stateless location
++  cupsdSetString(&ServerRoot, CUPS_SERVERROOT);
+ 
+   cupsdClearString(&Classification);
+   ClassifyOverride  = 0;
 diff --git a/scheduler/main.c b/scheduler/main.c
-index 8925c83..017abd9 100644
+index acf0316..1417124 100644
 --- a/scheduler/main.c
 +++ b/scheduler/main.c
 @@ -326,8 +326,18 @@ main(int  argc,				/* I - Number of command-line args */
@@ -45,5 +68,5 @@ index 8925c83..017abd9 100644
    {
      char	*filename,		/* Copy of cupsd.conf filename */
 -- 
-2.14.2
+2.17.1
 
