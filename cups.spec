@@ -6,9 +6,10 @@
 #
 Name     : cups
 Version  : 2.2.7
-Release  : 29
+Release  : 30
 URL      : https://github.com/apple/cups/releases/download/v2.2.7/cups-2.2.7-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.7/cups-2.2.7-source.tar.gz
+Source1  : cups.tmpfiles
 Source99 : https://github.com/apple/cups/releases/download/v2.2.7/cups-2.2.7-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
@@ -101,7 +102,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526267893
+export SOURCE_DATE_EPOCH=1528135678
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -110,9 +111,11 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1526267893
+export SOURCE_DATE_EPOCH=1528135678
 rm -rf %{buildroot}
 %make_install
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
 ## make_install_append content
 chmod a+x %{buildroot}/usr/bin/cupsd
 install -d -m 755 %{buildroot}/usr/share/defaults/etc
@@ -197,6 +200,7 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 /usr/lib/systemd/system/cupsd.path
 /usr/lib/systemd/system/cupsd.service
 /usr/lib/systemd/system/cupsd.socket
+/usr/lib/tmpfiles.d/cups.conf
 
 %files data
 %defattr(-,root,root,-)
