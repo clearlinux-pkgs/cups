@@ -1,7 +1,7 @@
-From 8109cdba59c0b1e248b7566d3cf00023e9de8342 Mon Sep 17 00:00:00 2001
+From 84661ef05b16e75cc7c15cd7198ddc99a3854336 Mon Sep 17 00:00:00 2001
 From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
 Date: Thu, 26 Oct 2017 07:44:37 -0500
-Subject: [PATCH] log to syslog by default
+Subject: [PATCH 2/4] log to syslog by default
 
 ---
  conf/cups-files.conf.in | 6 +++---
@@ -39,5 +39,5 @@ index 4a78ba6..f4230c9 100644
  # Location of the file listing all of the local printers...
  #Printcap @CUPS_DEFAULT_PRINTCAP@
 -- 
-2.14.3
+2.17.1
 
