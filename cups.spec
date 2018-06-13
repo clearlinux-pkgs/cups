@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.2.8
-Release  : 32
+Release  : 33
 URL      : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
 Source1  : cups.tmpfiles
@@ -18,8 +18,8 @@ Requires: cups-bin
 Requires: cups-config
 Requires: cups-lib
 Requires: cups-data
-Requires: cups-license
-Requires: cups-man
+Requires: cups-doc
+Requires: cups-doc
 BuildRequires : Linux-PAM-dev
 BuildRequires : dbus-dev
 BuildRequires : krb5-dev
@@ -41,8 +41,6 @@ Summary: bin components for the cups package.
 Group: Binaries
 Requires: cups-data
 Requires: cups-config
-Requires: cups-license
-Requires: cups-man
 
 %description bin
 bin components for the cups package.
@@ -79,7 +77,6 @@ dev components for the cups package.
 %package doc
 Summary: doc components for the cups package.
 Group: Documentation
-Requires: cups-man
 
 %description doc
 doc components for the cups package.
@@ -89,26 +86,9 @@ doc components for the cups package.
 Summary: lib components for the cups package.
 Group: Libraries
 Requires: cups-data
-Requires: cups-license
 
 %description lib
 lib components for the cups package.
-
-
-%package license
-Summary: license components for the cups package.
-Group: Default
-
-%description license
-license components for the cups package.
-
-
-%package man
-Summary: man components for the cups package.
-Group: Default
-
-%description man
-man components for the cups package.
 
 
 %prep
@@ -123,7 +103,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1528379153
+export SOURCE_DATE_EPOCH=1528918860
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -132,7 +112,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1528379153
+export SOURCE_DATE_EPOCH=1528918860
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
@@ -809,6 +789,10 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/doc/cups/*
+%doc /usr/share/man/man1/*
+%doc /usr/share/man/man5/*
+%doc /usr/share/man/man7/*
+%doc /usr/share/man/man8/*
 
 %files lib
 %defattr(-,root,root,-)
@@ -817,63 +801,3 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 /usr/lib64/libcupsimage.so.2
 /usr/lib64/libcupsmime.so.1
 /usr/lib64/libcupsppdc.so.1
-
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/cups/help/license.html
-
-%files man
-%defattr(-,root,root,-)
-/usr/share/man/man1/cancel.1.gz
-/usr/share/man/man1/cups-config.1.gz
-/usr/share/man/man1/cups.1.gz
-/usr/share/man/man1/cupstestdsc.1.gz
-/usr/share/man/man1/cupstestppd.1.gz
-/usr/share/man/man1/ipptool.1.gz
-/usr/share/man/man1/lp.1.gz
-/usr/share/man/man1/lpoptions.1.gz
-/usr/share/man/man1/lpq.1.gz
-/usr/share/man/man1/lpr.1.gz
-/usr/share/man/man1/lprm.1.gz
-/usr/share/man/man1/lpstat.1.gz
-/usr/share/man/man1/ppdc.1.gz
-/usr/share/man/man1/ppdhtml.1.gz
-/usr/share/man/man1/ppdi.1.gz
-/usr/share/man/man1/ppdmerge.1.gz
-/usr/share/man/man1/ppdpo.1.gz
-/usr/share/man/man5/classes.conf.5.gz
-/usr/share/man/man5/client.conf.5.gz
-/usr/share/man/man5/cups-files.conf.5.gz
-/usr/share/man/man5/cups-snmp.conf.5.gz
-/usr/share/man/man5/cupsd-logs.5.gz
-/usr/share/man/man5/cupsd.conf.5.gz
-/usr/share/man/man5/ipptoolfile.5.gz
-/usr/share/man/man5/mailto.conf.5.gz
-/usr/share/man/man5/mime.convs.5.gz
-/usr/share/man/man5/mime.types.5.gz
-/usr/share/man/man5/ppdcfile.5.gz
-/usr/share/man/man5/printers.conf.5.gz
-/usr/share/man/man5/subscriptions.conf.5.gz
-/usr/share/man/man7/backend.7.gz
-/usr/share/man/man7/filter.7.gz
-/usr/share/man/man7/notifier.7.gz
-/usr/share/man/man8/accept.8.gz
-/usr/share/man/man8/cups-deviced.8.gz
-/usr/share/man/man8/cups-driverd.8.gz
-/usr/share/man/man8/cups-exec.8.gz
-/usr/share/man/man8/cups-lpd.8.gz
-/usr/share/man/man8/cups-snmp.8.gz
-/usr/share/man/man8/cupsaccept.8.gz
-/usr/share/man/man8/cupsaddsmb.8.gz
-/usr/share/man/man8/cupsctl.8.gz
-/usr/share/man/man8/cupsd-helper.8.gz
-/usr/share/man/man8/cupsd.8.gz
-/usr/share/man/man8/cupsdisable.8.gz
-/usr/share/man/man8/cupsenable.8.gz
-/usr/share/man/man8/cupsfilter.8.gz
-/usr/share/man/man8/cupsreject.8.gz
-/usr/share/man/man8/lpadmin.8.gz
-/usr/share/man/man8/lpc.8.gz
-/usr/share/man/man8/lpinfo.8.gz
-/usr/share/man/man8/lpmove.8.gz
-/usr/share/man/man8/reject.8.gz
