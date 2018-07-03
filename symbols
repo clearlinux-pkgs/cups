@@ -25,9 +25,6 @@ libcups.so.2:_cupsLangPrintFilter
 libcups.so.2:_cupsLangPrintf
 libcups.so.2:_cupsLangPuts
 libcups.so.2:_cupsLangString
-libcups.so.2:_cupsMD5Append
-libcups.so.2:_cupsMD5Finish
-libcups.so.2:_cupsMD5Init
 libcups.so.2:_cupsMessageFree
 libcups.so.2:_cupsMessageLoad
 libcups.so.2:_cupsMessageLookup
@@ -77,11 +74,21 @@ libcups.so.2:_cups_strlcat
 libcups.so.2:_cups_strlcpy
 libcups.so.2:_cups_strncasecmp
 libcups.so.2:_httpAddrSetPort
+libcups.so.2:_httpCreateCredentials
 libcups.so.2:_httpDecodeURI
 libcups.so.2:_httpDisconnect
 libcups.so.2:_httpEncodeURI
+libcups.so.2:_httpFreeCredentials
 libcups.so.2:_httpResolveURI
 libcups.so.2:_httpStatus
+libcups.so.2:_httpTLSInitialize
+libcups.so.2:_httpTLSPending
+libcups.so.2:_httpTLSRead
+libcups.so.2:_httpTLSSetCredentials
+libcups.so.2:_httpTLSSetOptions
+libcups.so.2:_httpTLSStart
+libcups.so.2:_httpTLSStop
+libcups.so.2:_httpTLSWrite
 libcups.so.2:_httpUpdate
 libcups.so.2:_httpWait
 libcups.so.2:_ippFindOption
@@ -249,6 +256,7 @@ libcups.so.2:cupsLastErrorString
 libcups.so.2:cupsLocalizeDestMedia
 libcups.so.2:cupsLocalizeDestOption
 libcups.so.2:cupsLocalizeDestValue
+libcups.so.2:cupsMakeServerCredentials
 libcups.so.2:cupsMarkOptions
 libcups.so.2:cupsNotifySubject
 libcups.so.2:cupsNotifyText
@@ -275,6 +283,7 @@ libcups.so.2:cupsSetPasswordCB
 libcups.so.2:cupsSetPasswordCB2
 libcups.so.2:cupsSetServer
 libcups.so.2:cupsSetServerCertCB
+libcups.so.2:cupsSetServerCredentials
 libcups.so.2:cupsSetUser
 libcups.so.2:cupsSetUserAgent
 libcups.so.2:cupsSideChannelDoRequest

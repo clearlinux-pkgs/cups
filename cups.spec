@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.2.8
-Release  : 34
+Release  : 35
 URL      : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
 Source1  : cups.tmpfiles
@@ -22,9 +22,11 @@ Requires: cups-license
 Requires: cups-man
 Requires: cups-doc
 BuildRequires : Linux-PAM-dev
+BuildRequires : acl-dev
 BuildRequires : dbus-dev
 BuildRequires : ghostscript
 BuildRequires : ghostscript-dev
+BuildRequires : gnutls-dev
 BuildRequires : krb5-dev
 BuildRequires : libusb-dev
 BuildRequires : llvm-dev
@@ -128,7 +130,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530585905
+export SOURCE_DATE_EPOCH=1530589639
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -137,7 +139,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1530585905
+export SOURCE_DATE_EPOCH=1530589639
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/cups
 cp LICENSE.txt %{buildroot}/usr/share/doc/cups/LICENSE.txt
@@ -162,7 +164,9 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 %files
 %defattr(-,root,root,-)
 /usr/lib/cups/backend/http
+/usr/lib/cups/backend/https
 /usr/lib/cups/backend/ipp
+/usr/lib/cups/backend/ipps
 /usr/lib/cups/backend/lpd
 /usr/lib/cups/backend/snmp
 /usr/lib/cups/backend/socket
@@ -830,9 +834,9 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 
 %files license
 %defattr(-,root,root,-)
+%exclude /usr/share/doc/cups/help/license.html
 /usr/share/doc/cups/LICENSE.txt
 /usr/share/doc/cups/doc_help_license.html
-/usr/share/doc/cups/help/license.html
 /usr/share/doc/cups/vcnet_regex_COPYRIGHT
 
 %files man
