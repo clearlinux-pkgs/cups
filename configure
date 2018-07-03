@@ -1,1 +1,1 @@
---with-system-groups="root wheel lp" --enable-gssapi
+--with-system-groups="root wheel lp" --enable-gssapi --enable-libusb --with-dbusdir=/usr/share/dbus-1/

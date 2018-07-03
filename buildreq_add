@@ -3,4 +3,6 @@
 systemd-dev
 Linux-PAM-dev
 dbus-dev
+ghostscript
+ghostscript-dev
  

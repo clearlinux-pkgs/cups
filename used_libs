@@ -7,4 +7,5 @@ libpam.so.0
 libpthread.so.0
 libstdc++.so.6
 libsystemd.so.0
+libusb-1.0.so.0
 libz.so.1
