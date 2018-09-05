@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.2.8
-Release  : 35
+Release  : 36
 URL      : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
 Source1  : cups.tmpfiles
@@ -30,6 +30,8 @@ BuildRequires : gnutls-dev
 BuildRequires : krb5-dev
 BuildRequires : libusb-dev
 BuildRequires : llvm-dev
+BuildRequires : openjdk
+BuildRequires : php
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : systemd-dev
@@ -130,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530589639
+export SOURCE_DATE_EPOCH=1536163764
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -139,16 +141,16 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1530589639
+export SOURCE_DATE_EPOCH=1536163764
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/cups
 cp LICENSE.txt %{buildroot}/usr/share/doc/cups/LICENSE.txt
 cp doc/help/license.html %{buildroot}/usr/share/doc/cups/doc_help_license.html
 cp vcnet/regex/COPYRIGHT %{buildroot}/usr/share/doc/cups/vcnet_regex_COPYRIGHT
-%make_install
+%make_install STRIPPROG=''
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
-## make_install_append content
+## install_append content
 chmod a+x %{buildroot}/usr/bin/cupsd
 install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
@@ -159,7 +161,7 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd@.service
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.path
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.service
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
-## make_install_append end
+## install_append end
 
 %files
 %defattr(-,root,root,-)

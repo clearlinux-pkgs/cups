@@ -30,6 +30,3 @@ Configure miss: launch.h presence
 Configure miss: launch.h
 Configure miss: default print user
 Configure miss: default print group
-Configure miss: java
-Configure miss: php-cgi
-Configure miss: php

@@ -1,0 +1,9 @@
+2.2.8
+acl-dev
+gnutls-dev
+krb5-dev
+libusb-dev
+openjdk
+php
+pkgconfig(zlib)
+xdg-utils
