@@ -5,21 +5,22 @@
 # Source0 file verified with key 0xF434104235DA97EB (security@cups.org)
 #
 Name     : cups
-Version  : 2.2.8
-Release  : 36
-URL      : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
-Source0  : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz
+Version  : 2.2.9
+Release  : 37
+URL      : https://github.com/apple/cups/releases/download/v2.2.9/cups-2.2.9-source.tar.gz
+Source0  : https://github.com/apple/cups/releases/download/v2.2.9/cups-2.2.9-source.tar.gz
 Source1  : cups.tmpfiles
-Source99 : https://github.com/apple/cups/releases/download/v2.2.8/cups-2.2.8-source.tar.gz.sig
+Source99 : https://github.com/apple/cups/releases/download/v2.2.9/cups-2.2.9-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1 Zlib
-Requires: cups-bin
-Requires: cups-config
-Requires: cups-lib
-Requires: cups-data
-Requires: cups-license
-Requires: cups-man
+Requires: cups-bin = %{version}-%{release}
+Requires: cups-config = %{version}-%{release}
+Requires: cups-data = %{version}-%{release}
+Requires: cups-lib = %{version}-%{release}
+Requires: cups-license = %{version}-%{release}
+Requires: cups-man = %{version}-%{release}
+Requires: cups-services = %{version}-%{release}
 Requires: cups-doc
 BuildRequires : Linux-PAM-dev
 BuildRequires : acl-dev
@@ -29,7 +30,7 @@ BuildRequires : ghostscript-dev
 BuildRequires : gnutls-dev
 BuildRequires : krb5-dev
 BuildRequires : libusb-dev
-BuildRequires : llvm-dev
+BuildRequires : llvm
 BuildRequires : openjdk
 BuildRequires : php
 BuildRequires : pkgconfig(com_err)
@@ -48,10 +49,11 @@ Apple Inc. for macOSÂ® and other UNIXÂ®-like operating systems.
 %package bin
 Summary: bin components for the cups package.
 Group: Binaries
-Requires: cups-data
-Requires: cups-config
-Requires: cups-license
-Requires: cups-man
+Requires: cups-data = %{version}-%{release}
+Requires: cups-config = %{version}-%{release}
+Requires: cups-license = %{version}-%{release}
+Requires: cups-man = %{version}-%{release}
+Requires: cups-services = %{version}-%{release}
 
 %description bin
 bin components for the cups package.
@@ -76,10 +78,10 @@ data components for the cups package.
 %package dev
 Summary: dev components for the cups package.
 Group: Development
-Requires: cups-lib
-Requires: cups-bin
-Requires: cups-data
-Provides: cups-devel
+Requires: cups-lib = %{version}-%{release}
+Requires: cups-bin = %{version}-%{release}
+Requires: cups-data = %{version}-%{release}
+Provides: cups-devel = %{version}-%{release}
 
 %description dev
 dev components for the cups package.
@@ -88,7 +90,7 @@ dev components for the cups package.
 %package doc
 Summary: doc components for the cups package.
 Group: Documentation
-Requires: cups-man
+Requires: cups-man = %{version}-%{release}
 
 %description doc
 doc components for the cups package.
@@ -97,8 +99,8 @@ doc components for the cups package.
 %package lib
 Summary: lib components for the cups package.
 Group: Libraries
-Requires: cups-data
-Requires: cups-license
+Requires: cups-data = %{version}-%{release}
+Requires: cups-license = %{version}-%{release}
 
 %description lib
 lib components for the cups package.
@@ -120,8 +122,16 @@ Group: Default
 man components for the cups package.
 
 
+%package services
+Summary: services components for the cups package.
+Group: Systemd services
+
+%description services
+services components for the cups package.
+
+
 %prep
-%setup -q -n cups-2.2.8
+%setup -q -n cups-2.2.9
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -132,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536163764
+export SOURCE_DATE_EPOCH=1541735203
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -141,12 +151,12 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1536163764
+export SOURCE_DATE_EPOCH=1541735203
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/cups
-cp LICENSE.txt %{buildroot}/usr/share/doc/cups/LICENSE.txt
-cp doc/help/license.html %{buildroot}/usr/share/doc/cups/doc_help_license.html
-cp vcnet/regex/COPYRIGHT %{buildroot}/usr/share/doc/cups/vcnet_regex_COPYRIGHT
+mkdir -p %{buildroot}/usr/share/package-licenses/cups
+cp LICENSE.txt %{buildroot}/usr/share/package-licenses/cups/LICENSE.txt
+cp doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/doc_help_license.html
+cp vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/vcnet_regex_COPYRIGHT
 %make_install STRIPPROG=''
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
@@ -231,11 +241,6 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 
 %files config
 %defattr(-,root,root,-)
-/usr/lib/systemd/system/cups-lpd.socket
-/usr/lib/systemd/system/cups-lpd@.service
-/usr/lib/systemd/system/cupsd.path
-/usr/lib/systemd/system/cupsd.service
-/usr/lib/systemd/system/cupsd.socket
 /usr/lib/tmpfiles.d/cups.conf
 
 %files data
@@ -817,32 +822,26 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 /usr/include/cups/transcode.h
 /usr/include/cups/versioning.h
 /usr/lib64/libcups.so
-/usr/lib64/libcupscgi.so
 /usr/lib64/libcupsimage.so
-/usr/lib64/libcupsmime.so
-/usr/lib64/libcupsppdc.so
 
 %files doc
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/cups/*
+%exclude /usr/share/doc/cups/help/license.html
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libcups.so.2
-/usr/lib64/libcupscgi.so.1
 /usr/lib64/libcupsimage.so.2
-/usr/lib64/libcupsmime.so.1
-/usr/lib64/libcupsppdc.so.1
 
 %files license
-%defattr(-,root,root,-)
-%exclude /usr/share/doc/cups/help/license.html
-/usr/share/doc/cups/LICENSE.txt
-/usr/share/doc/cups/doc_help_license.html
-/usr/share/doc/cups/vcnet_regex_COPYRIGHT
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/cups/LICENSE.txt
+/usr/share/package-licenses/cups/doc_help_license.html
+/usr/share/package-licenses/cups/vcnet_regex_COPYRIGHT
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/cancel.1.gz
 /usr/share/man/man1/cups-config.1.gz
 /usr/share/man/man1/cups.1.gz
@@ -896,3 +895,11 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 /usr/share/man/man8/lpinfo.8.gz
 /usr/share/man/man8/lpmove.8.gz
 /usr/share/man/man8/reject.8.gz
+
+%files services
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/cups-lpd.socket
+/usr/lib/systemd/system/cups-lpd@.service
+/usr/lib/systemd/system/cupsd.path
+/usr/lib/systemd/system/cupsd.service
+/usr/lib/systemd/system/cupsd.socket
