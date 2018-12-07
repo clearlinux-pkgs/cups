@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xF434104235DA97EB (security@cups.org)
 #
 Name     : cups
-Version  : 2.2.9
-Release  : 37
-URL      : https://github.com/apple/cups/releases/download/v2.2.9/cups-2.2.9-source.tar.gz
-Source0  : https://github.com/apple/cups/releases/download/v2.2.9/cups-2.2.9-source.tar.gz
+Version  : 2.2.10
+Release  : 38
+URL      : https://github.com/apple/cups/releases/download/v2.2.10/cups-2.2.10-source.tar.gz
+Source0  : https://github.com/apple/cups/releases/download/v2.2.10/cups-2.2.10-source.tar.gz
 Source1  : cups.tmpfiles
-Source99 : https://github.com/apple/cups/releases/download/v2.2.9/cups-2.2.9-source.tar.gz.sig
+Source99 : https://github.com/apple/cups/releases/download/v2.2.10/cups-2.2.10-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1 Zlib
@@ -131,7 +131,7 @@ services components for the cups package.
 
 
 %prep
-%setup -q -n cups-2.2.9
+%setup -q -n cups-2.2.10
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -142,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541735203
+export SOURCE_DATE_EPOCH=1544215877
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -151,7 +151,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1541735203
+export SOURCE_DATE_EPOCH=1544215877
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp LICENSE.txt %{buildroot}/usr/share/package-licenses/cups/LICENSE.txt
