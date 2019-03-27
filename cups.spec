@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.2.11
-Release  : 39
+Release  : 40
 URL      : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
 Source1  : cups.tmpfiles
@@ -14,6 +14,7 @@ Source99 : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-s
 Summary  : CUPS
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1 Zlib
+Requires: cups-autostart = %{version}-%{release}
 Requires: cups-bin = %{version}-%{release}
 Requires: cups-config = %{version}-%{release}
 Requires: cups-data = %{version}-%{release}
@@ -46,13 +47,20 @@ Patch4: 0004-short-systemd-unit-names.patch
 CUPS is the standards-based, open source printing system developed by
 Apple Inc. for macOSÂ® and other UNIXÂ®-like operating systems.
 
+%package autostart
+Summary: autostart components for the cups package.
+Group: Default
+
+%description autostart
+autostart components for the cups package.
+
+
 %package bin
 Summary: bin components for the cups package.
 Group: Binaries
 Requires: cups-data = %{version}-%{release}
 Requires: cups-config = %{version}-%{release}
 Requires: cups-license = %{version}-%{release}
-Requires: cups-man = %{version}-%{release}
 Requires: cups-services = %{version}-%{release}
 
 %description bin
@@ -142,7 +150,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553559318
+export SOURCE_DATE_EPOCH=1553715036
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -151,7 +159,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1553559318
+export SOURCE_DATE_EPOCH=1553715036
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp LICENSE.txt %{buildroot}/usr/share/package-licenses/cups/LICENSE.txt
@@ -171,6 +179,8 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd@.service
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.path
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.service
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
+mkdir -p %{buildroot}/usr/lib/systemd/system/sockets.target.wants
+ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/cupsd.socket
 ## install_append end
 
 %files
@@ -205,6 +215,10 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 /usr/lib/cups/notifier/dbus
 /usr/lib/cups/notifier/mailto
 /usr/lib/cups/notifier/rss
+
+%files autostart
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/sockets.target.wants/cupsd.socket
 
 %files bin
 %defattr(-,root,root,-)
@@ -898,6 +912,7 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
 
 %files services
 %defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/sockets.target.wants/cupsd.socket
 /usr/lib/systemd/system/cups-lpd.socket
 /usr/lib/systemd/system/cups-lpd@.service
 /usr/lib/systemd/system/cupsd.path

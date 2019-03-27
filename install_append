@@ -8,3 +8,5 @@ mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd@.service
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.path
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.service
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cupsd.socket
+mkdir -p %{buildroot}/usr/lib/systemd/system/sockets.target.wants
+ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/cupsd.socket
