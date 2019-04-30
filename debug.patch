@@ -1,0 +1,10 @@
+--- a/scheduler/conf.c	2019-04-30 11:35:43.788008617 -0700
++++ b/scheduler/conf.c	2019-04-30 11:35:06.568008972 -0700
+@@ -246,6 +246,7 @@
+   struct stat	fileinfo;		/* Stat buffer */
+   int		is_symlink;		/* Is "filename" a symlink? */
+ 
++fprintf(stderr, "checking path %s, %s, %s\n", pathname, filename, suffix);
+ 
+  /*
+   * Prepend the given root to the filename before testing it...

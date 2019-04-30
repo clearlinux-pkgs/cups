@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.2.11
-Release  : 40
+Release  : 43
 URL      : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
 Source1  : cups.tmpfiles
@@ -42,6 +42,7 @@ Patch1: 0001-stateless-cupsd.patch
 Patch2: 0002-log-to-syslog-by-default.patch
 Patch3: 0003-use-clearlinux-pam-policies.patch
 Patch4: 0004-short-systemd-unit-names.patch
+Patch5: 0004-dont-modify-os-config-files.patch
 
 %description
 CUPS is the standards-based, open source printing system developed by
@@ -90,6 +91,7 @@ Requires: cups-lib = %{version}-%{release}
 Requires: cups-bin = %{version}-%{release}
 Requires: cups-data = %{version}-%{release}
 Provides: cups-devel = %{version}-%{release}
+Requires: cups = %{version}-%{release}
 
 %description dev
 dev components for the cups package.
@@ -144,13 +146,14 @@ services components for the cups package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553715036
+export SOURCE_DATE_EPOCH=1556653891
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
@@ -159,7 +162,7 @@ unset LDFLAGS
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1553715036
+export SOURCE_DATE_EPOCH=1556653891
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp LICENSE.txt %{buildroot}/usr/share/package-licenses/cups/LICENSE.txt
@@ -172,6 +175,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
 chmod a+x %{buildroot}/usr/bin/cupsd
 install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
+chmod 0644 %{buildroot}/usr/share/defaults/etc/cups/*
 install -d -m 0755 %{buildroot}/usr/share/pam.d
 install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd.socket

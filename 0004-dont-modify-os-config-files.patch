@@ -1,0 +1,14 @@
+--- cups-2.2.11/scheduler/conf.c~	2019-04-30 11:35:43.788008617 -0700
++++ cups-2.2.11/scheduler/conf.c	2019-04-30 12:45:09.325968892 -0700
+@@ -246,6 +246,11 @@
+   struct stat	fileinfo;		/* Stat buffer */
+   int		is_symlink;		/* Is "filename" a symlink? */
+ 
++  /*
++   * Do not fix permissions of any files in OS maintained locations
++   */
++  if (strncmp(filename, "/usr/share", strlen("/usr/share")) == 0)
++    return (0);
+ 
+  /*
+   * Prepend the given root to the filename before testing it...
