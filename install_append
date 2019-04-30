@@ -1,7 +1,6 @@
 chmod a+x %{buildroot}/usr/bin/cupsd
 install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
-chgrp nobody %{buildroot}/usr/share/defaults/etc/cups/cups{d,-files}.conf{,.default}
 install -d -m 0755 %{buildroot}/usr/share/pam.d
 install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
 mv %{buildroot}/usr/lib/systemd/system/{org.cups.,}cups-lpd.socket
