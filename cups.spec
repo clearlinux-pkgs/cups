@@ -5,15 +5,15 @@
 # Source0 file verified with key 0xF434104235DA97EB (security@cups.org)
 #
 Name     : cups
-Version  : 2.2.11
-Release  : 43
-URL      : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
-Source0  : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
+Version  : 2.3.0
+Release  : 44
+URL      : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
+Source0  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source1  : cups.tmpfiles
-Source99 : https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz.sig
+Source2 : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
-License  : GPL-2.0 LGPL-2.1 Zlib
+License  : Apache-2.0 Zlib
 Requires: cups-autostart = %{version}-%{release}
 Requires: cups-bin = %{version}-%{release}
 Requires: cups-config = %{version}-%{release}
@@ -46,7 +46,7 @@ Patch5: 0004-dont-modify-os-config-files.patch
 
 %description
 CUPS is the standards-based, open source printing system developed by
-Apple Inc. for macOSÂ® and other UNIXÂ®-like operating systems.
+Apple Inc. for macOS® and other UNIX®-like operating systems.
 
 %package autostart
 Summary: autostart components for the cups package.
@@ -141,7 +141,7 @@ services components for the cups package.
 
 
 %prep
-%setup -q -n cups-2.2.11
+%setup -q -n cups-2.3.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -152,26 +152,41 @@ services components for the cups package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1556653891
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1569802672
+export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
 unset LDFLAGS
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-system-groups="root wheel lp" --enable-gssapi --enable-libusb --with-dbusdir=/usr/share/dbus-1/
 make  %{?_smp_mflags}
 
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+make unittests
+
 %install
-export SOURCE_DATE_EPOCH=1556653891
+export SOURCE_DATE_EPOCH=1569802672
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
-cp LICENSE.txt %{buildroot}/usr/share/package-licenses/cups/LICENSE.txt
+cp LICENSE %{buildroot}/usr/share/package-licenses/cups/LICENSE
 cp doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/doc_help_license.html
 cp vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/vcnet_regex_COPYRIGHT
 %make_install STRIPPROG=''
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
+## Remove excluded files
+rm -f %{buildroot}/usr/share/doc/cups/help/license.html
 ## install_append content
+make -C tools all
 chmod a+x %{buildroot}/usr/bin/cupsd
 install -d -m 755 %{buildroot}/usr/share/defaults/etc
 cp -R %{buildroot}/etc/* %{buildroot}/usr/share/defaults/etc/
@@ -202,6 +217,8 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/lib/cups/cgi-bin/help.cgi
 /usr/lib/cups/cgi-bin/jobs.cgi
 /usr/lib/cups/cgi-bin/printers.cgi
+/usr/lib/cups/command/ippevepcl
+/usr/lib/cups/command/ippeveps
 /usr/lib/cups/daemon/cups-deviced
 /usr/lib/cups/daemon/cups-driverd
 /usr/lib/cups/daemon/cups-exec
@@ -209,7 +226,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/lib/cups/filter/commandtops
 /usr/lib/cups/filter/gziptoany
 /usr/lib/cups/filter/pstops
-/usr/lib/cups/filter/rastertodymo
 /usr/lib/cups/filter/rastertoepson
 /usr/lib/cups/filter/rastertohp
 /usr/lib/cups/filter/rastertolabel
@@ -226,19 +242,17 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/accept
 /usr/bin/cancel
 /usr/bin/cups-config
 /usr/bin/cupsaccept
-/usr/bin/cupsaddsmb
 /usr/bin/cupsctl
 /usr/bin/cupsd
 /usr/bin/cupsdisable
 /usr/bin/cupsenable
 /usr/bin/cupsfilter
 /usr/bin/cupsreject
-/usr/bin/cupstestdsc
 /usr/bin/cupstestppd
+/usr/bin/ippeveprinter
 /usr/bin/ipptool
 /usr/bin/lp
 /usr/bin/lpadmin
@@ -255,7 +269,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/bin/ppdi
 /usr/bin/ppdmerge
 /usr/bin/ppdpo
-/usr/bin/reject
 
 %files config
 %defattr(-,root,root,-)
@@ -275,30 +288,66 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/examples/r300-basic.drv
 /usr/share/cups/examples/r300-colorman.drv
 /usr/share/cups/examples/r300-remote.drv
+/usr/share/cups/ipptool/cancel-current-job.test
 /usr/share/cups/ipptool/color.jpg
+/usr/share/cups/ipptool/create-job-format.test
+/usr/share/cups/ipptool/create-job-sheets.test
+/usr/share/cups/ipptool/create-job-timeout.test
+/usr/share/cups/ipptool/create-job.test
 /usr/share/cups/ipptool/create-printer-subscription.test
+/usr/share/cups/ipptool/cups-create-local-printer.test
 /usr/share/cups/ipptool/document-a4.pdf
 /usr/share/cups/ipptool/document-a4.ps
 /usr/share/cups/ipptool/document-letter.pdf
 /usr/share/cups/ipptool/document-letter.ps
+/usr/share/cups/ipptool/fax-job.test
 /usr/share/cups/ipptool/get-completed-jobs.test
+/usr/share/cups/ipptool/get-devices.test
+/usr/share/cups/ipptool/get-job-attributes.test
+/usr/share/cups/ipptool/get-job-attributes2.test
+/usr/share/cups/ipptool/get-job-template-attributes.test
 /usr/share/cups/ipptool/get-jobs.test
 /usr/share/cups/ipptool/get-notifications.test
+/usr/share/cups/ipptool/get-ppd-printer.test
+/usr/share/cups/ipptool/get-ppd.test
+/usr/share/cups/ipptool/get-ppds-drv-only.test
+/usr/share/cups/ipptool/get-ppds-language.test
+/usr/share/cups/ipptool/get-ppds-make-and-model.test
+/usr/share/cups/ipptool/get-ppds-make.test
+/usr/share/cups/ipptool/get-ppds-product.test
+/usr/share/cups/ipptool/get-ppds-psversion.test
+/usr/share/cups/ipptool/get-ppds.test
+/usr/share/cups/ipptool/get-printer-attributes-suite.test
 /usr/share/cups/ipptool/get-printer-attributes.test
+/usr/share/cups/ipptool/get-printer-description-attributes.test
+/usr/share/cups/ipptool/get-printers-printer-id.test
+/usr/share/cups/ipptool/get-printers.test
 /usr/share/cups/ipptool/get-subscriptions.test
 /usr/share/cups/ipptool/gray.jpg
+/usr/share/cups/ipptool/identify-printer-display.test
+/usr/share/cups/ipptool/identify-printer-multiple.test
+/usr/share/cups/ipptool/identify-printer.test
 /usr/share/cups/ipptool/ipp-1.1.test
 /usr/share/cups/ipptool/ipp-2.0.test
 /usr/share/cups/ipptool/ipp-2.1.test
 /usr/share/cups/ipptool/ipp-2.2.test
+/usr/share/cups/ipptool/ipp-backend.test
 /usr/share/cups/ipptool/ipp-everywhere.test
 /usr/share/cups/ipptool/onepage-a4.pdf
 /usr/share/cups/ipptool/onepage-a4.ps
 /usr/share/cups/ipptool/onepage-letter.pdf
 /usr/share/cups/ipptool/onepage-letter.ps
+/usr/share/cups/ipptool/print-job-and-wait.test
 /usr/share/cups/ipptool/print-job-deflate.test
 /usr/share/cups/ipptool/print-job-gzip.test
+/usr/share/cups/ipptool/print-job-hold.test
+/usr/share/cups/ipptool/print-job-letter.test
+/usr/share/cups/ipptool/print-job-manual.test
+/usr/share/cups/ipptool/print-job-media-col.test
+/usr/share/cups/ipptool/print-job-password.test
 /usr/share/cups/ipptool/print-job.test
+/usr/share/cups/ipptool/print-uri.test
+/usr/share/cups/ipptool/set-attrs-hold.test
 /usr/share/cups/ipptool/testfile.jpg
 /usr/share/cups/ipptool/testfile.pcl
 /usr/share/cups/ipptool/testfile.pdf
@@ -315,7 +364,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/ppdc/raster.defs
 /usr/share/cups/templates/add-class.tmpl
 /usr/share/cups/templates/add-printer.tmpl
-/usr/share/cups/templates/add-rss-subscription.tmpl
 /usr/share/cups/templates/admin.tmpl
 /usr/share/cups/templates/choose-device.tmpl
 /usr/share/cups/templates/choose-make.tmpl
@@ -333,7 +381,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/command.tmpl
 /usr/share/cups/templates/de/add-class.tmpl
 /usr/share/cups/templates/de/add-printer.tmpl
-/usr/share/cups/templates/de/add-rss-subscription.tmpl
 /usr/share/cups/templates/de/admin.tmpl
 /usr/share/cups/templates/de/choose-device.tmpl
 /usr/share/cups/templates/de/choose-make.tmpl
@@ -391,13 +438,9 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/de/printers-header.tmpl
 /usr/share/cups/templates/de/printers.tmpl
 /usr/share/cups/templates/de/restart.tmpl
-/usr/share/cups/templates/de/samba-export.tmpl
-/usr/share/cups/templates/de/samba-exported.tmpl
 /usr/share/cups/templates/de/search.tmpl
 /usr/share/cups/templates/de/set-printer-options-header.tmpl
 /usr/share/cups/templates/de/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/de/subscription-added.tmpl
-/usr/share/cups/templates/de/subscription-canceled.tmpl
 /usr/share/cups/templates/de/test-page.tmpl
 /usr/share/cups/templates/de/trailer.tmpl
 /usr/share/cups/templates/de/users.tmpl
@@ -406,7 +449,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/error.tmpl
 /usr/share/cups/templates/es/add-class.tmpl
 /usr/share/cups/templates/es/add-printer.tmpl
-/usr/share/cups/templates/es/add-rss-subscription.tmpl
 /usr/share/cups/templates/es/admin.tmpl
 /usr/share/cups/templates/es/choose-device.tmpl
 /usr/share/cups/templates/es/choose-make.tmpl
@@ -464,19 +506,14 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/es/printers-header.tmpl
 /usr/share/cups/templates/es/printers.tmpl
 /usr/share/cups/templates/es/restart.tmpl
-/usr/share/cups/templates/es/samba-export.tmpl
-/usr/share/cups/templates/es/samba-exported.tmpl
 /usr/share/cups/templates/es/search.tmpl
 /usr/share/cups/templates/es/set-printer-options-header.tmpl
 /usr/share/cups/templates/es/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/es/subscription-added.tmpl
-/usr/share/cups/templates/es/subscription-canceled.tmpl
 /usr/share/cups/templates/es/test-page.tmpl
 /usr/share/cups/templates/es/trailer.tmpl
 /usr/share/cups/templates/es/users.tmpl
 /usr/share/cups/templates/fr/add-class.tmpl
 /usr/share/cups/templates/fr/add-printer.tmpl
-/usr/share/cups/templates/fr/add-rss-subscription.tmpl
 /usr/share/cups/templates/fr/admin.tmpl
 /usr/share/cups/templates/fr/choose-device.tmpl
 /usr/share/cups/templates/fr/choose-make.tmpl
@@ -534,13 +571,9 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/fr/printers-header.tmpl
 /usr/share/cups/templates/fr/printers.tmpl
 /usr/share/cups/templates/fr/restart.tmpl
-/usr/share/cups/templates/fr/samba-export.tmpl
-/usr/share/cups/templates/fr/samba-exported.tmpl
 /usr/share/cups/templates/fr/search.tmpl
 /usr/share/cups/templates/fr/set-printer-options-header.tmpl
 /usr/share/cups/templates/fr/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/fr/subscription-added.tmpl
-/usr/share/cups/templates/fr/subscription-canceled.tmpl
 /usr/share/cups/templates/fr/test-page.tmpl
 /usr/share/cups/templates/fr/trailer.tmpl
 /usr/share/cups/templates/fr/users.tmpl
@@ -550,7 +583,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/help-trailer.tmpl
 /usr/share/cups/templates/ja/add-class.tmpl
 /usr/share/cups/templates/ja/add-printer.tmpl
-/usr/share/cups/templates/ja/add-rss-subscription.tmpl
 /usr/share/cups/templates/ja/admin.tmpl
 /usr/share/cups/templates/ja/choose-device.tmpl
 /usr/share/cups/templates/ja/choose-make.tmpl
@@ -608,13 +640,9 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/ja/printers-header.tmpl
 /usr/share/cups/templates/ja/printers.tmpl
 /usr/share/cups/templates/ja/restart.tmpl
-/usr/share/cups/templates/ja/samba-export.tmpl
-/usr/share/cups/templates/ja/samba-exported.tmpl
 /usr/share/cups/templates/ja/search.tmpl
 /usr/share/cups/templates/ja/set-printer-options-header.tmpl
 /usr/share/cups/templates/ja/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/ja/subscription-added.tmpl
-/usr/share/cups/templates/ja/subscription-canceled.tmpl
 /usr/share/cups/templates/ja/test-page.tmpl
 /usr/share/cups/templates/ja/trailer.tmpl
 /usr/share/cups/templates/ja/users.tmpl
@@ -654,7 +682,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/printers.tmpl
 /usr/share/cups/templates/pt_BR/add-class.tmpl
 /usr/share/cups/templates/pt_BR/add-printer.tmpl
-/usr/share/cups/templates/pt_BR/add-rss-subscription.tmpl
 /usr/share/cups/templates/pt_BR/admin.tmpl
 /usr/share/cups/templates/pt_BR/choose-device.tmpl
 /usr/share/cups/templates/pt_BR/choose-make.tmpl
@@ -712,20 +739,15 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/pt_BR/printers-header.tmpl
 /usr/share/cups/templates/pt_BR/printers.tmpl
 /usr/share/cups/templates/pt_BR/restart.tmpl
-/usr/share/cups/templates/pt_BR/samba-export.tmpl
-/usr/share/cups/templates/pt_BR/samba-exported.tmpl
 /usr/share/cups/templates/pt_BR/search.tmpl
 /usr/share/cups/templates/pt_BR/set-printer-options-header.tmpl
 /usr/share/cups/templates/pt_BR/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/pt_BR/subscription-added.tmpl
-/usr/share/cups/templates/pt_BR/subscription-canceled.tmpl
 /usr/share/cups/templates/pt_BR/test-page.tmpl
 /usr/share/cups/templates/pt_BR/trailer.tmpl
 /usr/share/cups/templates/pt_BR/users.tmpl
 /usr/share/cups/templates/restart.tmpl
 /usr/share/cups/templates/ru/add-class.tmpl
 /usr/share/cups/templates/ru/add-printer.tmpl
-/usr/share/cups/templates/ru/add-rss-subscription.tmpl
 /usr/share/cups/templates/ru/admin.tmpl
 /usr/share/cups/templates/ru/choose-device.tmpl
 /usr/share/cups/templates/ru/choose-make.tmpl
@@ -783,23 +805,15 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/ru/printers-header.tmpl
 /usr/share/cups/templates/ru/printers.tmpl
 /usr/share/cups/templates/ru/restart.tmpl
-/usr/share/cups/templates/ru/samba-export.tmpl
-/usr/share/cups/templates/ru/samba-exported.tmpl
 /usr/share/cups/templates/ru/search.tmpl
 /usr/share/cups/templates/ru/set-printer-options-header.tmpl
 /usr/share/cups/templates/ru/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/ru/subscription-added.tmpl
-/usr/share/cups/templates/ru/subscription-canceled.tmpl
 /usr/share/cups/templates/ru/test-page.tmpl
 /usr/share/cups/templates/ru/trailer.tmpl
 /usr/share/cups/templates/ru/users.tmpl
-/usr/share/cups/templates/samba-export.tmpl
-/usr/share/cups/templates/samba-exported.tmpl
 /usr/share/cups/templates/search.tmpl
 /usr/share/cups/templates/set-printer-options-header.tmpl
 /usr/share/cups/templates/set-printer-options-trailer.tmpl
-/usr/share/cups/templates/subscription-added.tmpl
-/usr/share/cups/templates/subscription-canceled.tmpl
 /usr/share/cups/templates/test-page.tmpl
 /usr/share/cups/templates/trailer.tmpl
 /usr/share/cups/templates/users.tmpl
@@ -813,6 +827,7 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/locale/ca/cups_ca.po
 /usr/share/locale/cs/cups_cs.po
 /usr/share/locale/de/cups_de.po
+/usr/share/locale/en/cups_en.po
 /usr/share/locale/es/cups_es.po
 /usr/share/locale/fr/cups_fr.po
 /usr/share/locale/it/cups_it.po
@@ -845,7 +860,6 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 %files doc
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/cups/*
-%exclude /usr/share/doc/cups/help/license.html
 
 %files lib
 %defattr(-,root,root,-)
@@ -854,65 +868,64 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/cups/LICENSE.txt
+/usr/share/package-licenses/cups/LICENSE
 /usr/share/package-licenses/cups/doc_help_license.html
 /usr/share/package-licenses/cups/vcnet_regex_COPYRIGHT
 
 %files man
 %defattr(0644,root,root,0755)
-/usr/share/man/man1/cancel.1.gz
-/usr/share/man/man1/cups-config.1.gz
-/usr/share/man/man1/cups.1.gz
-/usr/share/man/man1/cupstestdsc.1.gz
-/usr/share/man/man1/cupstestppd.1.gz
-/usr/share/man/man1/ipptool.1.gz
-/usr/share/man/man1/lp.1.gz
-/usr/share/man/man1/lpoptions.1.gz
-/usr/share/man/man1/lpq.1.gz
-/usr/share/man/man1/lpr.1.gz
-/usr/share/man/man1/lprm.1.gz
-/usr/share/man/man1/lpstat.1.gz
-/usr/share/man/man1/ppdc.1.gz
-/usr/share/man/man1/ppdhtml.1.gz
-/usr/share/man/man1/ppdi.1.gz
-/usr/share/man/man1/ppdmerge.1.gz
-/usr/share/man/man1/ppdpo.1.gz
-/usr/share/man/man5/classes.conf.5.gz
-/usr/share/man/man5/client.conf.5.gz
-/usr/share/man/man5/cups-files.conf.5.gz
-/usr/share/man/man5/cups-snmp.conf.5.gz
-/usr/share/man/man5/cupsd-logs.5.gz
-/usr/share/man/man5/cupsd.conf.5.gz
-/usr/share/man/man5/ipptoolfile.5.gz
-/usr/share/man/man5/mailto.conf.5.gz
-/usr/share/man/man5/mime.convs.5.gz
-/usr/share/man/man5/mime.types.5.gz
-/usr/share/man/man5/ppdcfile.5.gz
-/usr/share/man/man5/printers.conf.5.gz
-/usr/share/man/man5/subscriptions.conf.5.gz
-/usr/share/man/man7/backend.7.gz
-/usr/share/man/man7/filter.7.gz
-/usr/share/man/man7/notifier.7.gz
-/usr/share/man/man8/accept.8.gz
-/usr/share/man/man8/cups-deviced.8.gz
-/usr/share/man/man8/cups-driverd.8.gz
-/usr/share/man/man8/cups-exec.8.gz
-/usr/share/man/man8/cups-lpd.8.gz
-/usr/share/man/man8/cups-snmp.8.gz
-/usr/share/man/man8/cupsaccept.8.gz
-/usr/share/man/man8/cupsaddsmb.8.gz
-/usr/share/man/man8/cupsctl.8.gz
-/usr/share/man/man8/cupsd-helper.8.gz
-/usr/share/man/man8/cupsd.8.gz
-/usr/share/man/man8/cupsdisable.8.gz
-/usr/share/man/man8/cupsenable.8.gz
-/usr/share/man/man8/cupsfilter.8.gz
-/usr/share/man/man8/cupsreject.8.gz
-/usr/share/man/man8/lpadmin.8.gz
-/usr/share/man/man8/lpc.8.gz
-/usr/share/man/man8/lpinfo.8.gz
-/usr/share/man/man8/lpmove.8.gz
-/usr/share/man/man8/reject.8.gz
+/usr/share/man/man1/cancel.1
+/usr/share/man/man1/cups-config.1
+/usr/share/man/man1/cups.1
+/usr/share/man/man1/cupstestppd.1
+/usr/share/man/man1/ippeveprinter.1
+/usr/share/man/man1/ipptool.1
+/usr/share/man/man1/lp.1
+/usr/share/man/man1/lpoptions.1
+/usr/share/man/man1/lpq.1
+/usr/share/man/man1/lpr.1
+/usr/share/man/man1/lprm.1
+/usr/share/man/man1/lpstat.1
+/usr/share/man/man1/ppdc.1
+/usr/share/man/man1/ppdhtml.1
+/usr/share/man/man1/ppdi.1
+/usr/share/man/man1/ppdmerge.1
+/usr/share/man/man1/ppdpo.1
+/usr/share/man/man5/classes.conf.5
+/usr/share/man/man5/client.conf.5
+/usr/share/man/man5/cups-files.conf.5
+/usr/share/man/man5/cups-snmp.conf.5
+/usr/share/man/man5/cupsd-logs.5
+/usr/share/man/man5/cupsd.conf.5
+/usr/share/man/man5/ipptoolfile.5
+/usr/share/man/man5/mailto.conf.5
+/usr/share/man/man5/mime.convs.5
+/usr/share/man/man5/mime.types.5
+/usr/share/man/man5/ppdcfile.5
+/usr/share/man/man5/printers.conf.5
+/usr/share/man/man5/subscriptions.conf.5
+/usr/share/man/man7/backend.7
+/usr/share/man/man7/filter.7
+/usr/share/man/man7/ippevepcl.7
+/usr/share/man/man7/ippeveps.7
+/usr/share/man/man7/notifier.7
+/usr/share/man/man8/cups-deviced.8
+/usr/share/man/man8/cups-driverd.8
+/usr/share/man/man8/cups-exec.8
+/usr/share/man/man8/cups-lpd.8
+/usr/share/man/man8/cups-snmp.8
+/usr/share/man/man8/cupsaccept.8
+/usr/share/man/man8/cupsctl.8
+/usr/share/man/man8/cupsd-helper.8
+/usr/share/man/man8/cupsd.8
+/usr/share/man/man8/cupsdisable.8
+/usr/share/man/man8/cupsenable.8
+/usr/share/man/man8/cupsfilter.8
+/usr/share/man/man8/cupsreject.8
+/usr/share/man/man8/lpadmin.8
+/usr/share/man/man8/lpc.8
+/usr/share/man/man8/lpinfo.8
+/usr/share/man/man8/lpmove.8
 
 %files services
 %defattr(-,root,root,-)

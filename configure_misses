@@ -6,9 +6,6 @@ Configure miss: bstring.h
 Configure miss: sys/ucred.h usability
 Configure miss: sys/ucred.h presence
 Configure miss: library containing libiconv_open
-Configure miss: mxml.h usability
-Configure miss: mxml.h presence
-Configure miss: mxml.h
 Configure miss: arc4random
 Configure miss: st_gen member in stat structure
 Configure miss: removefile
