@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.3.0
-Release  : 44
+Release  : 45
 URL      : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source1  : cups.tmpfiles
@@ -23,6 +23,7 @@ Requires: cups-license = %{version}-%{release}
 Requires: cups-man = %{version}-%{release}
 Requires: cups-services = %{version}-%{release}
 Requires: cups-doc
+Requires: poppler-bin
 BuildRequires : Linux-PAM-dev
 BuildRequires : acl-dev
 BuildRequires : dbus-dev
@@ -153,7 +154,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569802672
+export SOURCE_DATE_EPOCH=1570823441
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
@@ -174,7 +175,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1569802672
+export SOURCE_DATE_EPOCH=1570823441
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp LICENSE %{buildroot}/usr/share/package-licenses/cups/LICENSE
