@@ -3,7 +3,7 @@ acl-dev
 gnutls-dev
 krb5-dev
 libusb-dev
-openjdk
 php
 pkgconfig(zlib)
+util-linux
 xdg-utils

@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.3.0
-Release  : 45
+Release  : 46
 URL      : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source1  : cups.tmpfiles
@@ -33,11 +33,11 @@ BuildRequires : gnutls-dev
 BuildRequires : krb5-dev
 BuildRequires : libusb-dev
 BuildRequires : llvm
-BuildRequires : openjdk
 BuildRequires : php
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : systemd-dev
+BuildRequires : util-linux
 BuildRequires : xdg-utils
 Patch1: 0001-stateless-cupsd.patch
 Patch2: 0002-log-to-syslog-by-default.patch
@@ -154,7 +154,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570823441
+export SOURCE_DATE_EPOCH=1571681997
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
@@ -175,12 +175,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1570823441
+export SOURCE_DATE_EPOCH=1571681997
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
-cp LICENSE %{buildroot}/usr/share/package-licenses/cups/LICENSE
-cp doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/doc_help_license.html
-cp vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/vcnet_regex_COPYRIGHT
+cp %{_builddir}/cups-2.3.0/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+cp %{_builddir}/cups-2.3.0/doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/ba086bb20e20708223f0e789026aabeb7c6ae0cc
+cp %{_builddir}/cups-2.3.0/vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/3e1353f170c05e116354014b1f59a7dfbddc4d87
 %make_install STRIPPROG=''
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
@@ -869,9 +869,9 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/cups/LICENSE
-/usr/share/package-licenses/cups/doc_help_license.html
-/usr/share/package-licenses/cups/vcnet_regex_COPYRIGHT
+/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+/usr/share/package-licenses/cups/3e1353f170c05e116354014b1f59a7dfbddc4d87
+/usr/share/package-licenses/cups/ba086bb20e20708223f0e789026aabeb7c6ae0cc
 
 %files man
 %defattr(0644,root,root,0755)
