@@ -6,11 +6,11 @@
 #
 Name     : cups
 Version  : 2.3.0
-Release  : 46
+Release  : 47
 URL      : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
 Source1  : cups.tmpfiles
-Source2 : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz.sig
+Source2  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
 License  : Apache-2.0 Zlib
@@ -143,6 +143,7 @@ services components for the cups package.
 
 %prep
 %setup -q -n cups-2.3.0
+cd %{_builddir}/cups-2.3.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -154,11 +155,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571681997
+export SOURCE_DATE_EPOCH=1575661198
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
+CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
 unset LDFLAGS
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -175,7 +178,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1571681997
+export SOURCE_DATE_EPOCH=1575661198
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp %{_builddir}/cups-2.3.0/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890
