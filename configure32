@@ -1,0 +1,2 @@
+--disable-gssapi
+--disable-gnutls
