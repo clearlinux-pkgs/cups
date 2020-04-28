@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xF434104235DA97EB (security@cups.org)
 #
 Name     : cups
-Version  : 2.3.0
-Release  : 48
-URL      : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
-Source0  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz
+Version  : 2.3.3
+Release  : 49
+URL      : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz
+Source0  : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz
 Source1  : cups.tmpfiles
-Source2  : https://github.com/apple/cups/releases/download/v2.3.0/cups-2.3.0-source.tar.gz.sig
+Source2  : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
 License  : Apache-2.0 Zlib
@@ -33,11 +33,9 @@ BuildRequires : gnutls-dev
 BuildRequires : krb5-dev
 BuildRequires : libusb-dev
 BuildRequires : llvm
-BuildRequires : php
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : systemd-dev
-BuildRequires : util-linux
 BuildRequires : xdg-utils
 Patch1: 0001-stateless-cupsd.patch
 Patch2: 0002-log-to-syslog-by-default.patch
@@ -142,8 +140,8 @@ services components for the cups package.
 
 
 %prep
-%setup -q -n cups-2.3.0
-cd %{_builddir}/cups-2.3.0
+%setup -q -n cups-2.3.3
+cd %{_builddir}/cups-2.3.3
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -155,7 +153,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583430303
+export SOURCE_DATE_EPOCH=1588116405
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
@@ -164,8 +162,8 @@ CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
 CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
 unset LDFLAGS
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-system-groups="root wheel lp" \
 --enable-gssapi \
@@ -182,12 +180,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1583430303
+export SOURCE_DATE_EPOCH=1588116405
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
-cp %{_builddir}/cups-2.3.0/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890
-cp %{_builddir}/cups-2.3.0/doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/ba086bb20e20708223f0e789026aabeb7c6ae0cc
-cp %{_builddir}/cups-2.3.0/vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/3e1353f170c05e116354014b1f59a7dfbddc4d87
+cp %{_builddir}/cups-2.3.3/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+cp %{_builddir}/cups-2.3.3/doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/ba086bb20e20708223f0e789026aabeb7c6ae0cc
+cp %{_builddir}/cups-2.3.3/vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/3e1353f170c05e116354014b1f59a7dfbddc4d87
 %make_install STRIPPROG=''
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
@@ -826,6 +824,7 @@ ln -sf ../cupsd.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/
 /usr/share/cups/templates/trailer.tmpl
 /usr/share/cups/templates/users.tmpl
 /usr/share/cups/usb/org.cups.usb-quirks
+/usr/share/dbus-1/system.d/cups.conf
 /usr/share/defaults/etc/cups/cups-files.conf
 /usr/share/defaults/etc/cups/cups-files.conf.default
 /usr/share/defaults/etc/cups/cupsd.conf
