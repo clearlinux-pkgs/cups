@@ -1,26 +1,26 @@
-Configure miss: codesign
-Configure miss: clang option to accept ISO C89
-Configure miss: bstring.h usability
-Configure miss: bstring.h presence
-Configure miss: bstring.h
-Configure miss: sys/ucred.h usability
-Configure miss: sys/ucred.h presence
-Configure miss: library containing libiconv_open
-Configure miss: arc4random
-Configure miss: st_gen member in stat structure
-Configure miss: removefile
-Configure miss: x86_64-generic-linux-gnu-krb5-config
-Configure miss: __ApplePrivate_gss_acquire_cred_ex_f
-Configure miss: pthread_create using -lpthreads
-Configure miss: x86_64-generic-linux-gnu-libgnutls-config
-Configure miss: libgnutls-config
 Configure miss: Avahi
-Configure miss: dns_sd.h usability
-Configure miss: dns_sd.h presence
-Configure miss: dns_sd.h
-Configure miss: launch_activate_socket
-Configure miss: launch.h usability
-Configure miss: launch.h presence
-Configure miss: launch.h
-Configure miss: default print user
+Configure miss: __ApplePrivate_gss_acquire_cred_ex_f
+Configure miss: arc4random
+Configure miss: bstring.h
+Configure miss: bstring.h presence
+Configure miss: bstring.h usability
+Configure miss: clang option to accept ISO C89
+Configure miss: codesign
 Configure miss: default print group
+Configure miss: default print user
+Configure miss: dns_sd.h
+Configure miss: dns_sd.h presence
+Configure miss: dns_sd.h usability
+Configure miss: launch.h
+Configure miss: launch.h presence
+Configure miss: launch.h usability
+Configure miss: launch_activate_socket
+Configure miss: libgnutls-config
+Configure miss: library containing libiconv_open
+Configure miss: pthread_create using -lpthreads
+Configure miss: removefile
+Configure miss: st_gen member in stat structure
+Configure miss: sys/ucred.h presence
+Configure miss: sys/ucred.h usability
+Configure miss: x86_64-generic-linux-gnu-krb5-config
+Configure miss: x86_64-generic-linux-gnu-libgnutls-config
