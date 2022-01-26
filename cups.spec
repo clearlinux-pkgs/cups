@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.3.3
-Release  : 52
+Release  : 53
 URL      : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz
 Source1  : cups.tmpfiles
@@ -153,7 +153,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1622817992
+export SOURCE_DATE_EPOCH=1643232624
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
@@ -180,7 +180,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1622817992
+export SOURCE_DATE_EPOCH=1643232624
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp %{_builddir}/cups-2.3.3/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890
@@ -190,7 +190,7 @@ cp %{_builddir}/cups-2.3.3/vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
 ## Remove excluded files
-rm -f %{buildroot}/usr/share/doc/cups/help/license.html
+rm -f %{buildroot}*/usr/share/doc/cups/help/license.html
 ## install_append content
 make -C tools all
 chmod a+x %{buildroot}/usr/bin/cupsd

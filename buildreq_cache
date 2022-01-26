@@ -1,0 +1,7 @@
+2.3.3
+acl-dev
+gnutls-dev
+krb5-dev
+libusb-dev
+pkgconfig(zlib)
+xdg-utils
