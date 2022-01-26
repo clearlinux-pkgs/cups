@@ -6,7 +6,7 @@
 #
 Name     : cups
 Version  : 2.3.3
-Release  : 51
+Release  : 52
 URL      : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz
 Source0  : https://github.com/apple/cups/releases/download/v2.3.3/cups-2.3.3-source.tar.gz
 Source1  : cups.tmpfiles
