@@ -128,6 +128,7 @@ libcups.so.2:_ppdCacheGetSource
 libcups.so.2:_ppdCacheGetType
 libcups.so.2:_ppdCacheWriteFile
 libcups.so.2:_ppdCreateFromIPP
+libcups.so.2:_ppdCreateFromIPP2
 libcups.so.2:_ppdFreeLanguages
 libcups.so.2:_ppdGetEncoding
 libcups.so.2:_ppdGetLanguages
@@ -314,6 +315,7 @@ libcups.so.2:cupsSetDefaultDest
 libcups.so.2:cupsSetDests
 libcups.so.2:cupsSetDests2
 libcups.so.2:cupsSetEncryption
+libcups.so.2:cupsSetOAuthCB
 libcups.so.2:cupsSetPasswordCB
 libcups.so.2:cupsSetPasswordCB2
 libcups.so.2:cupsSetServer

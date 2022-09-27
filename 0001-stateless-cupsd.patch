@@ -1,7 +1,7 @@
-From 5621d31b12f79c35f5f3e0bb7281bb0e115f0219 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
 Date: Thu, 19 Oct 2017 13:34:46 -0500
-Subject: [PATCH 1/4] stateless cupsd
+Subject: [PATCH] stateless cupsd
 
 Signed-off-by: Simental Magana, Marcos <marcos.simental.magana@intel.com>
 ---
@@ -11,10 +11,10 @@ Signed-off-by: Simental Magana, Marcos <marcos.simental.magana@intel.com>
  3 files changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/config.h.in b/config.h.in
-index f3b5e4c..7ab7203 100644
+index 62ea2ff..70959b5 100644
 --- a/config.h.in
 +++ b/config.h.in
-@@ -126,6 +126,7 @@
+@@ -131,6 +131,7 @@
  #define CUPS_SBINDIR	"/usr/sbin"
  #define CUPS_SERVERBIN	"/usr/lib/cups"
  #define CUPS_SERVERROOT	"/etc/cups"
@@ -23,10 +23,10 @@ index f3b5e4c..7ab7203 100644
  
  
 diff --git a/scheduler/conf.c b/scheduler/conf.c
-index 8c2694f..de0b5da 100644
+index 535d40f..758b822 100644
 --- a/scheduler/conf.c
 +++ b/scheduler/conf.c
-@@ -601,11 +601,12 @@ cupsdReadConfiguration(void)
+@@ -595,11 +595,12 @@ cupsdReadConfiguration(void)
    else
      PrintcapFormat = PRINTCAP_BSD;
  
@@ -45,11 +45,11 @@ index 8c2694f..de0b5da 100644
    cupsdClearString(&Classification);
    ClassifyOverride  = 0;
 diff --git a/scheduler/main.c b/scheduler/main.c
-index acf0316..1417124 100644
+index 0380faa..1792fc5 100644
 --- a/scheduler/main.c
 +++ b/scheduler/main.c
-@@ -326,8 +326,18 @@ main(int  argc,				/* I - Number of command-line args */
-     }
+@@ -324,8 +324,18 @@ main(int  argc,				/* I - Number of command-line args */
+   }
  
    if (!ConfigurationFile)
 +  {
@@ -67,6 +67,3 @@ index acf0316..1417124 100644
    if (!CupsFilesFile)
    {
      char	*filename,		/* Copy of cupsd.conf filename */
--- 
-2.17.1
-

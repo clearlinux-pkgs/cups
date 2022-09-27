@@ -1,7 +1,7 @@
-From 222d979e811cc43a8cb68289b69c4c57b4aa716a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
 Date: Mon, 18 Dec 2017 16:06:27 -0600
-Subject: [PATCH 3/4] use clearlinux pam policies
+Subject: [PATCH] use clearlinux pam policies
 
 ---
  data/cups.pam | 4 ++--
@@ -16,6 +16,3 @@ index f38e701..ad41220 100644
 -account	required	/lib/security/pam_pwdb.so
 +auth	include	common-auth
 +account	include	common-account
--- 
-2.17.1
-

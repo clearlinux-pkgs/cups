@@ -1,14 +1,14 @@
-From 84661ef05b16e75cc7c15cd7198ddc99a3854336 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
 Date: Thu, 26 Oct 2017 07:44:37 -0500
-Subject: [PATCH 2/4] log to syslog by default
+Subject: [PATCH] log to syslog by default
 
 ---
  conf/cups-files.conf.in | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
-index 4a78ba6..f4230c9 100644
+index 93584a1..1af9f44 100644
 --- a/conf/cups-files.conf.in
 +++ b/conf/cups-files.conf.in
 @@ -32,7 +32,7 @@ SystemGroup @CUPS_SYSTEM_GROUPS@
@@ -20,16 +20,14 @@ index 4a78ba6..f4230c9 100644
  
  # Location of cache files used by the scheduler...
  #CacheDir @CUPS_CACHEDIR@
-@@ -47,7 +47,7 @@ AccessLog @CUPS_LOGDIR@/access_log
+@@ -47,13 +47,13 @@ AccessLog @CUPS_LOGDIR@/access_log
  # helper programs; may be the name "syslog". If not an absolute path, the value
  # of ServerRoot is used as the root directory.  Also see the "LogLevel"
  # directive in cupsd.conf.
 -ErrorLog @CUPS_LOGDIR@/error_log
 +ErrorLog syslog
  
- # Location of fonts used by older print filters...
- #FontPath @CUPS_FONTPATH@
-@@ -59,7 +59,7 @@ ErrorLog @CUPS_LOGDIR@/error_log
+ # Location of the file logging all pages printed by the scheduler and any
  # helper programs; may be the name "syslog". If not an absolute path, the value
  # of ServerRoot is used as the root directory.  Also see the "PageLogFormat"
  # directive in cupsd.conf.
@@ -38,6 +36,3 @@ index 4a78ba6..f4230c9 100644
  
  # Location of the file listing all of the local printers...
  #Printcap @CUPS_DEFAULT_PRINTCAP@
--- 
-2.17.1
-

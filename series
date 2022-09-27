@@ -1,5 +1,4 @@
 0001-stateless-cupsd.patch
 0002-log-to-syslog-by-default.patch
 0003-use-clearlinux-pam-policies.patch
-0004-short-systemd-unit-names.patch
 0004-dont-modify-os-config-files.patch

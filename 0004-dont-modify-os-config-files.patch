@@ -1,6 +1,8 @@
---- cups-2.2.11/scheduler/conf.c~	2019-04-30 11:35:43.788008617 -0700
-+++ cups-2.2.11/scheduler/conf.c	2019-04-30 12:45:09.325968892 -0700
-@@ -246,6 +246,11 @@
+diff --git a/scheduler/conf.c b/scheduler/conf.c
+index 758b822..6ab96ad 100644
+--- a/scheduler/conf.c
++++ b/scheduler/conf.c
+@@ -241,6 +241,11 @@ cupsdCheckPermissions(
    struct stat	fileinfo;		/* Stat buffer */
    int		is_symlink;		/* Is "filename" a symlink? */
  
