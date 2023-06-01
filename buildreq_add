@@ -1,7 +1,8 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
-systemd-dev
 Linux-PAM-dev
 dbus-dev
 ghostscript
 ghostscript-dev
+llvm-dev
+systemd-dev
