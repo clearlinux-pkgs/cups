@@ -6,12 +6,12 @@
 # Source0 file verified with key 0xE4522DCC9B246FF7 (zdohnal@redhat.com)
 #
 Name     : cups
-Version  : 2.4.3
-Release  : 55
-URL      : https://github.com/OpenPrinting/cups/releases/download/v2.4.3/cups-2.4.3-source.tar.gz
-Source0  : https://github.com/OpenPrinting/cups/releases/download/v2.4.3/cups-2.4.3-source.tar.gz
+Version  : 2.4.4
+Release  : 56
+URL      : https://github.com/OpenPrinting/cups/releases/download/v2.4.4/cups-2.4.4-source.tar.gz
+Source0  : https://github.com/OpenPrinting/cups/releases/download/v2.4.4/cups-2.4.4-source.tar.gz
 Source1  : cups.tmpfiles
-Source2  : https://github.com/OpenPrinting/cups/releases/download/v2.4.3/cups-2.4.3-source.tar.gz.sig
+Source2  : https://github.com/OpenPrinting/cups/releases/download/v2.4.4/cups-2.4.4-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
 License  : Apache-2.0 Zlib
@@ -34,7 +34,6 @@ BuildRequires : ghostscript-dev
 BuildRequires : gnutls-dev
 BuildRequires : krb5-dev
 BuildRequires : libusb-dev
-BuildRequires : llvm
 BuildRequires : llvm-dev
 BuildRequires : pkgconfig(com_err)
 BuildRequires : pkgconfig(zlib)
@@ -147,30 +146,27 @@ services components for the cups package.
 
 
 %prep
-%setup -q -n cups-2.4.3
-cd %{_builddir}/cups-2.4.3
-%patch -P 1 -p1
-%patch -P 2 -p1
-%patch -P 3 -p1
-%patch -P 4 -p1
+%setup -q -n cups-2.4.4
+cd %{_builddir}/cups-2.4.4
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+pushd ..
+cp -a cups-2.4.4 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685657832
+export SOURCE_DATE_EPOCH=1686065698
 export GCC_IGNORE_WERROR=1
-export CC=clang
-export CXX=clang++
-export LD=ld.gold
-CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
-CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
-unset LDFLAGS
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$FFLAGS -fno-lto "
-export FFLAGS="$FFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static --with-system-groups="root wheel lp" \
 --enable-gssapi \
 --enable-libusb \
@@ -178,6 +174,20 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 --with-rundir=/run/cups
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --with-system-groups="root wheel lp" \
+--enable-gssapi \
+--enable-libusb \
+--with-dbusdir=/usr/share/dbus-1/ \
+--with-rundir=/run/cups
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
@@ -186,12 +196,15 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1685657832
+export SOURCE_DATE_EPOCH=1686065698
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp %{_builddir}/cups-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
 cp %{_builddir}/cups-%{version}/doc/help/license.html %{buildroot}/usr/share/package-licenses/cups/ba086bb20e20708223f0e789026aabeb7c6ae0cc || :
 cp %{_builddir}/cups-%{version}/vcnet/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/cups/3e1353f170c05e116354014b1f59a7dfbddc4d87 || :
+pushd ../buildavx2/
+%make_install_v3 STRIPPROG=''
+popd
 %make_install STRIPPROG=''
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/cups.conf
@@ -208,9 +221,38 @@ install -m 0644 data/cups.pam %{buildroot}/usr/share/pam.d/cups
 mkdir -p %{buildroot}/usr/lib/systemd/system/sockets.target.wants
 ln -sf ../cups.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/cups.socket
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
+/V3/usr/lib/cups/backend/ipp
+/V3/usr/lib/cups/backend/lpd
+/V3/usr/lib/cups/backend/snmp
+/V3/usr/lib/cups/backend/socket
+/V3/usr/lib/cups/backend/usb
+/V3/usr/lib/cups/cgi-bin/admin.cgi
+/V3/usr/lib/cups/cgi-bin/classes.cgi
+/V3/usr/lib/cups/cgi-bin/help.cgi
+/V3/usr/lib/cups/cgi-bin/jobs.cgi
+/V3/usr/lib/cups/cgi-bin/printers.cgi
+/V3/usr/lib/cups/command/ippevepcl
+/V3/usr/lib/cups/command/ippeveps
+/V3/usr/lib/cups/daemon/cups-deviced
+/V3/usr/lib/cups/daemon/cups-driverd
+/V3/usr/lib/cups/daemon/cups-exec
+/V3/usr/lib/cups/daemon/cups-lpd
+/V3/usr/lib/cups/filter/commandtops
+/V3/usr/lib/cups/filter/gziptoany
+/V3/usr/lib/cups/filter/pstops
+/V3/usr/lib/cups/filter/rastertoepson
+/V3/usr/lib/cups/filter/rastertohp
+/V3/usr/lib/cups/filter/rastertolabel
+/V3/usr/lib/cups/filter/rastertopwg
+/V3/usr/lib/cups/monitor/bcp
+/V3/usr/lib/cups/monitor/tbcp
+/V3/usr/lib/cups/notifier/dbus
+/V3/usr/lib/cups/notifier/mailto
+/V3/usr/lib/cups/notifier/rss
 /usr/lib/cups/backend/http
 /usr/lib/cups/backend/https
 /usr/lib/cups/backend/ipp
@@ -249,6 +291,29 @@ ln -sf ../cups.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/c
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/cancel
+/V3/usr/bin/cupsaccept
+/V3/usr/bin/cupsctl
+/V3/usr/bin/cupsd
+/V3/usr/bin/cupsfilter
+/V3/usr/bin/cupstestppd
+/V3/usr/bin/ippeveprinter
+/V3/usr/bin/ipptool
+/V3/usr/bin/lp
+/V3/usr/bin/lpadmin
+/V3/usr/bin/lpc
+/V3/usr/bin/lpinfo
+/V3/usr/bin/lpmove
+/V3/usr/bin/lpoptions
+/V3/usr/bin/lpq
+/V3/usr/bin/lpr
+/V3/usr/bin/lprm
+/V3/usr/bin/lpstat
+/V3/usr/bin/ppdc
+/V3/usr/bin/ppdhtml
+/V3/usr/bin/ppdi
+/V3/usr/bin/ppdmerge
+/V3/usr/bin/ppdpo
 /usr/bin/cancel
 /usr/bin/cups-config
 /usr/bin/cupsaccept
@@ -944,6 +1009,8 @@ ln -sf ../cups.socket %{buildroot}/usr/lib/systemd/system/sockets.target.wants/c
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/libcups.so.2
+/V3/usr/lib64/libcupsimage.so.2
 /usr/lib64/libcups.so.2
 /usr/lib64/libcupsimage.so.2
 
