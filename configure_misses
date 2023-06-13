@@ -1,22 +1,30 @@
 Configure miss: Avahi client
+Configure miss: Avahi client
 Configure miss: __ApplePrivate_gss_acquire_cred_ex_f
-Configure miss: clang option to enable C11 features
-Configure miss: clang++ option to enable C++11 features
+Configure miss: __ApplePrivate_gss_acquire_cred_ex_f
+Configure miss: codesign
 Configure miss: codesign
 Configure miss: default print group
+Configure miss: default print group
+Configure miss: default print user
 Configure miss: default print user
 Configure miss: dns_sd.h
+Configure miss: dns_sd.h
+Configure miss: g++ option to enable C++11 features
+Configure miss: g++ option to enable C++11 features
+Configure miss: libgnutls-config
 Configure miss: libgnutls-config
 Configure miss: library containing libiconv_open
+Configure miss: library containing libiconv_open
+Configure miss: openssl package
 Configure miss: openssl package
 Configure miss: pthread_create using -lpthreads
+Configure miss: pthread_create using -lpthreads
+Configure miss: removefile
 Configure miss: removefile
 Configure miss: st_gen member in stat structure
-Configure miss: whether compiler supports -Wno-char-subscripts
-Configure miss: whether compiler supports -Wno-deprecated-declarations
-Configure miss: whether compiler supports -Wno-format-truncation
-Configure miss: whether compiler supports -Wno-format-y2k
-Configure miss: whether compiler supports -Wno-switch
-Configure miss: whether compiler supports -Wno-unused-result
+Configure miss: st_gen member in stat structure
 Configure miss: x86_64-generic-linux-gnu-krb5-config
+Configure miss: x86_64-generic-linux-gnu-krb5-config
+Configure miss: x86_64-generic-linux-gnu-libgnutls-config
 Configure miss: x86_64-generic-linux-gnu-libgnutls-config
