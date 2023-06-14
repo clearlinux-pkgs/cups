@@ -7,7 +7,7 @@
 #
 Name     : cups
 Version  : 2.4.5
-Release  : 57
+Release  : 58
 URL      : https://github.com/OpenPrinting/cups/releases/download/v2.4.5/cups-2.4.5-source.tar.gz
 Source0  : https://github.com/OpenPrinting/cups/releases/download/v2.4.5/cups-2.4.5-source.tar.gz
 Source1  : cups.tmpfiles
