@@ -6,12 +6,12 @@
 # Source0 file verified with key 0xE4522DCC9B246FF7 (zdohnal@redhat.com)
 #
 Name     : cups
-Version  : 2.4.5
-Release  : 58
-URL      : https://github.com/OpenPrinting/cups/releases/download/v2.4.5/cups-2.4.5-source.tar.gz
-Source0  : https://github.com/OpenPrinting/cups/releases/download/v2.4.5/cups-2.4.5-source.tar.gz
+Version  : 2.4.6
+Release  : 59
+URL      : https://github.com/OpenPrinting/cups/releases/download/v2.4.6/cups-2.4.6-source.tar.gz
+Source0  : https://github.com/OpenPrinting/cups/releases/download/v2.4.6/cups-2.4.6-source.tar.gz
 Source1  : cups.tmpfiles
-Source2  : https://github.com/OpenPrinting/cups/releases/download/v2.4.5/cups-2.4.5-source.tar.gz.sig
+Source2  : https://github.com/OpenPrinting/cups/releases/download/v2.4.6/cups-2.4.6-source.tar.gz.sig
 Summary  : CUPS
 Group    : Development/Tools
 License  : Apache-2.0 Zlib
@@ -146,14 +146,14 @@ services components for the cups package.
 
 
 %prep
-%setup -q -n cups-2.4.5
-cd %{_builddir}/cups-2.4.5
+%setup -q -n cups-2.4.6
+cd %{_builddir}/cups-2.4.6
 %patch -P 1 -p1
 %patch -P 2 -p1
 %patch -P 3 -p1
 %patch -P 4 -p1
 pushd ..
-cp -a cups-2.4.5 buildavx2
+cp -a cups-2.4.6 buildavx2
 popd
 
 %build
@@ -161,7 +161,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1686669371
+export SOURCE_DATE_EPOCH=1687545519
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
@@ -196,7 +196,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make unittests
 
 %install
-export SOURCE_DATE_EPOCH=1686669371
+export SOURCE_DATE_EPOCH=1687545519
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/cups
 cp %{_builddir}/cups-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/cups/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
