@@ -83,8 +83,6 @@ libcups.so.2:_cups_debug_set
 libcups.so.2:_cups_safe_vsnprintf
 libcups.so.2:_cups_strcasecmp
 libcups.so.2:_cups_strcpy
-libcups.so.2:_cups_strlcat
-libcups.so.2:_cups_strlcpy
 libcups.so.2:_cups_strncasecmp
 libcups.so.2:_httpAddrSetPort
 libcups.so.2:_httpCreateCredentials
@@ -268,6 +266,7 @@ libcups.so.2:cupsGetPassword2
 libcups.so.2:cupsGetPrinters
 libcups.so.2:cupsGetResponse
 libcups.so.2:cupsGetServerPPD
+libcups.so.2:cupsHMACData
 libcups.so.2:cupsHashData
 libcups.so.2:cupsHashString
 libcups.so.2:cupsLangDefault
