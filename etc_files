@@ -1,0 +1,13 @@
+/etc/:
+/etc/cups/ppd:
+/etc/cups/ssl:
+/etc/cups:
+cups
+cups-files.conf
+cups-files.conf.default
+cupsd.conf
+cupsd.conf.default
+ppd
+snmp.conf
+snmp.conf.default
+ssl
