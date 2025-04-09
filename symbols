@@ -15,6 +15,7 @@ libcups.so.2:_cupsFileCheckFilter
 libcups.so.2:_cupsFilePeekAhead
 libcups.so.2:_cupsGSSServiceName
 libcups.so.2:_cupsGet1284Values
+libcups.so.2:_cupsGetClock
 libcups.so.2:_cupsGetDestResource
 libcups.so.2:_cupsGetDests
 libcups.so.2:_cupsGetPassword
